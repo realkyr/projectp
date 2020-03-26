@@ -9,9 +9,9 @@
 </head>
 <body>
   <div id='app'>
-    <div class="canvas" id="box" :style="canvasStyle">
+    <div ref="canvas" class="canvas" id="box" :style="canvasStyle">
       <!-- <h2>{{ cursor }}</h2> -->
-      <div class="inner-canvas">
+      <div ref="inner" v-on:mousemove="update" :style="innerCanvasStyle" class="inner-canvas">
         <h1 v-if="cursor < 200" :style="titleStyle" class="title">Yora Kim</h1>
       </div>
     </div>
@@ -29,6 +29,7 @@ html, body {
 }
 
 .canvas {
+  perspective: 40px;
   height: 100vh;
   overflow: hidden;
   transition: all 1s;
@@ -37,6 +38,7 @@ html, body {
 .inner-canvas {
   position: relative;
   height: 100%;
+  transition: all 0.5s;
 }
 
 .title {
@@ -63,8 +65,9 @@ html, body {
       titleStyle: {
         "font-size": 10 + 'px',
         "text-shadow": `${1}px ${1}px #1D7D9E`,
-        'opacity': 1
-      }
+        'opacity': 1,
+      },
+      innerCanvasStyle: {},
     },
     mounted() {
       console.dir(box)
@@ -95,6 +98,44 @@ html, body {
 
         // shadow
         this.titleStyle['text-shadow'] = `${size * 0.05}px ${size * 0.05}px #1D7D9E`
+      },
+      update(e) {
+        const container = this.$refs['canvas']
+        const inner = this.$refs['inner']
+        let mouse = {
+          _x: 0,
+          _y: 0,
+          x: 0,
+          y: 0,
+          updatePosition: function(event) {
+            var e = event || window.event;
+            this.x = e.clientX - this._x;
+            this.y = (e.clientY - this._y) * -1;
+          },
+          setOrigin: function(e) {
+            this._x = e.offsetLeft + Math.floor(e.offsetWidth/2);
+            this._y = e.offsetTop + Math.floor(e.offsetHeight/2);
+          },
+          show: function() { return '(' + this.x + ', ' + this.y + ')'; }
+        }
+
+        mouse.setOrigin(container)
+        mouse.updatePosition(e)
+
+        const updateTransformStyle = (x, y) => {
+          let style = "rotateX(" + x + "deg) rotateY(" + y + "deg)";
+          this.innerCanvasStyle.transform = style
+          this.innerCanvasStyle.webkitTransform = style
+          this.innerCanvasStyle.mozTransform = style
+          this.innerCanvasStyle.msTransform = style
+          this.innerCanvasStyle.oTransform = style
+        }
+
+        updateTransformStyle(
+          (mouse.y / inner.offsetHeight/2).toFixed(2),
+          (mouse.x / inner.offsetWidth/2).toFixed(2)
+        )
+        this.$forceUpdate()
       }
     }
   })
