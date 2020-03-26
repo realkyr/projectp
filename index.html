@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <div class="canvas" id="box" style="background-color: red;"></div>
+  </div>
+</body>
+
+<style>
+body {
+  margin: 0;
+}
+
+html, body {
+  overflow: hidden;
+}
+
+.canvas {
+  height: 100vh;
+  overflow: hidden;
+  transition: all 1s;
+}
+</style>
+
+<script>
+let box = document.querySelector('#box')
+console.dir(box)
+let color = ['red', 'green', 'blue']
+let cursor = 1
+window.addEventListener('mousewheel', (e) => {
+  let delta = Math.max(-1, Math.min(1, e.wheelDelta))
+  if (delta == -1) {
+    cursor += 0.4
+  } else {
+    cursor -= 0.4
+    if (cursor < 1) cursor = 1
+  }
+  
+  box.style.backgroundColor = color[Math.floor(cursor/100)]
+  console.log(cursor)
+})
+</script>
+</html>
