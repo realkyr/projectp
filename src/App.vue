@@ -76,19 +76,25 @@ export default {
   },
   methods: {
     titleAnimate (type) {
-      // if (type === 'mousewheel') {
-      this.titleStyle['transition-timing-function'] = 'ease-in-out'
-      this.titleStyle.transition = 'all 0.5s'
-      // } else {
-      //   this.titleStyle['transition-timing-function'] = 'none'
-      //   this.titleStyle.transition = 'none'
-      // }
+      if (type === 'mousewheel') {
+        this.titleStyle['transition-timing-function'] = 'ease-in-out'
+        this.titleStyle.transition = 'all 0.5s'
+      } else {
+        this.titleStyle['transition-timing-function'] = 'none'
+        this.titleStyle.transition = 'none'
+      }
       // sizing
-      const size = this.cursorRange
-      this.titleStyle['max-width'] = (this.cursor >= 100 ? 100 : size * 10) + '%'
+      const size = this.cursor
+      this.titleStyle['max-width'] = size * 1.1 + '%'
 
       // opacity
-      this.titleStyle.opacity = this.cursor < 100 ? 1 : 0
+      if (this.cursor < 100) {
+        this.titleStyle.opacity = 1
+      } else {
+        this.titleStyle['transition-timing-function'] = 'ease-in-out'
+        this.titleStyle.transition = 'all 0.5s'
+        this.titleStyle.opacity = 0
+      }
     },
     update (e) {
       const container = this.$refs.canvas
