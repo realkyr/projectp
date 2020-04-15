@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "YoungSerif";
+  src: url("../Fonts/youngserif-regular.eot");
+  src: url("../Fonts/youngserif-regular.eot?#iefix") format("embedded-opentype"),
+       url("../Fonts/youngserif-regular-webfont.woff2") format("woff2"),
+       url("../Fonts/youngserif-regular-webfont.woff") format("woff"),
+       url("../Fonts/youngserif-regular.ttf") format("truetype"),
+       url("../Fonts/youngserif-regular.svg") format("svg");
+}
