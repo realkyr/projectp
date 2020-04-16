@@ -1,0 +1,240 @@
+@import "../Fonts/font.css";
+
+html {
+  overflow-y: scroll;
+}
+
+.about {
+  width: 100vw;
+  overflow-x: hidden;
+  background-position: center top;
+  background-image: url('../img/About/bg.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  color: #C96717;
+}
+
+.about-section {
+  height: 1500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.propose-section {
+  color: #FDE458;
+  margin-top: 10%;
+}
+
+.learnto-section {
+  color: white;
+  margin-top: 5%
+}
+
+.fruit-section {
+  color: #54362B;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  margin-top: 20%
+}
+
+.nav {
+  padding: 2em 50px;
+}
+
+.topic, .subtopic {
+  text-align: center;
+}
+
+.subtopic {
+  font-family: 'youngserif';
+}
+
+.topic {
+  font-family: 'Renogare Regular' !important;
+}
+
+.learnto-section .topic {
+  text-align: left;
+  margin-bottom: 50px;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.learnto-section {
+  margin-top: 10%;
+}
+
+.fruit-section .topic {
+  text-align: left;
+}
+
+.fruit-article {
+  font-family: 'Kanit', sans-serif;
+  text-align: justify;
+  width: 40vw;
+}
+
+#beoriginal {
+  position: relative;
+  width: 100%;
+  transform: translate(0, -30%)
+  
+}
+
+.contact {
+  font-family: 'Kanit', sans-serif;
+  margin-right: 20px;
+}
+
+.aboutus {
+  text-align: justify;
+  margin: 0 auto;
+  font-family: 'Kanit', sans-serif;
+}
+
+.aboutus.quote {
+  text-align: left;
+  margin: 30px auto;
+}
+
+@media (max-width: 1980px) {
+  .about-section {
+    height: 1300px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .fruit-article {
+    width: 40vw;
+  }
+}
+
+
+@media (max-width: 1440px) {
+  .about {
+    background-position: center top;
+    background-size: 1700px, 100%;
+    font-size: 0.8em;
+  }
+
+  .aboutus {
+    width: 50vw;
+  }
+
+  .about-section {
+    height: 900px;
+  }
+
+  .fruit-article {
+    width: 50vw;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .aboutus {
+    width: 60vw;
+  }
+
+  .about {
+    background-position: center top;
+    background-size: 1200px, 100%;
+  }
+
+  .propose-section {
+    margin-top: 5%;
+  }
+
+  .learnto-section {
+    margin-top: 5%;
+  }
+
+  .about-section {
+    height: 660px;
+  }
+  
+  #beoriginal {
+    width: 130%;
+    transform: translate(-10%, -55%)
+  }
+
+  .fruit-article {
+    width: 50vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    padding: 20px 10px
+  }
+
+  .aboutus {
+    width: 75vw;
+  }
+
+  .about {
+    background-size: 1500px, 100%;
+  }
+
+  .about-section {
+    height: 800px;
+  }
+
+  .learnto-section {
+    margin-top: 25%;
+  }
+
+  .learnto-section .topic {
+    font-size: 2em;
+  }
+
+  #beoriginal {
+    width: 140%;
+    transform: translate(-15%, -50%)
+  }
+
+  .fruit-article {
+    width: 60vw;
+  }
+}
+
+@media (max-width: 560px) {
+
+  .fruit-article {
+    width: 90vw;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .aboutus {
+    width: 90vw;
+  }
+
+  .propose-section {
+    margin-top: 20px;
+  }
+
+  #beoriginal {
+    width: 200%;
+    transform: translate(-25%, -50%)
+  }
+
+  .fruit-article {
+    width: 90vw;
+  }
+  .contact {
+    font-size: 0.8em;
+  }
+}

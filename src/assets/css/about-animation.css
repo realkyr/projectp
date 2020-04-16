@@ -1,0 +1,77 @@
+.learnto-section .learnto-items,
+.fruit-section .fruit-items {
+  opacity: 0;
+}
+
+.learnto-section.disappear .learnto-items,
+.fruit-section.disappear .fruit-items {
+  opacity: 0;
+  animation: fadeOut 0.2s linear;
+}
+
+.learnto-section ~ img {
+  opacity: 0;
+}
+
+.learnto-section.appear ~ img {
+  opacity: 1;
+  animation: fadeIn 0.2s linear;
+  animation-delay: 1.5s;
+  animation-fill-mode: both;
+}
+
+.learnto-section.appear .learnto-items,
+.fruit-section.appear .fruit-items{
+  opacity: 1;
+  animation: fadeIn 0.2s linear;
+  animation-fill-mode: both;
+  animation-delay: 0.5s;
+}
+
+
+.learnto-section.appear .learnto-items:nth-child(2),
+.fruit-section.appear .fruit-items:nth-child(3) {
+  animation-delay: 1s;
+}
+
+/* propose section */
+.propose-section .pro-items{
+  opacity: 0;
+}
+
+.propose-section.appear .pro-items{
+  opacity: 1;
+  animation: fadeIn 0.2s linear;
+  animation-fill-mode: both;
+}
+
+.propose-section.appear .pro-items:nth-child(2),
+.propose-section.appear .pro-items:nth-child(3),
+.propose-section.appear .pro-items:nth-child(4) {
+  animation-delay: 0.5s;
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}

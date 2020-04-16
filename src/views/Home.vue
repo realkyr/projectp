@@ -13,7 +13,7 @@
                   mobile: this.isMobile ? true : false,
                   verticle: this.isScreenVertical ? true : false
                 }">
-                  <li><router-link to="#" tag="a">ABOUT</router-link></li>
+                  <li><router-link :to="{name : 'About'}" tag="a">ABOUT</router-link></li>
                   <li><router-link to="#" tag="a">SHOP</router-link></li>
                   <li><router-link :to="{name: 'Story'}" tag="a">STORY OF US</router-link></li>
                 </ul>
@@ -33,6 +33,12 @@
           </b-col>
         </b-row>
       </b-container>
+      <h1 style="display: flex; height: 100vh; align-items: center;" v-else>
+        <video ref="opening" :width="screen.width" preload autoplay muted>
+          <source :src="require('@/assets/videos/Opening.mp4')" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </h1>
     </transition>
   </div>
 </template>
@@ -78,10 +84,10 @@ export default {
     } else {
       this.homeStyle['background-image'] = 'url(' + require('../assets/bg-01.jpg') + ')'
     }
-    this.$nextTick(() => {
+    setTimeout(() => {
       NProgress.done()
       this.isLoadFinish = true
-    })
+    }, 11000)
   },
   computed: {
     isScreenVertical () {
@@ -158,10 +164,6 @@ body {
   height: 100vh;
   font-family: 'YoungSerif';
   font-size: 30pt;
-}
-
-.menu a {
-  color: #436FB5;
 }
 
 #image-cloud {
@@ -293,4 +295,38 @@ ul.menu {
   }
 }
 
+.menu a,
+.menu a:hover {
+  position: relative;
+  display: inline-block;
+  margin: 15px 25px;
+  outline: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #436FB5;
+}
+
+.menu a:hover::before,
+.menu a:focus::before {
+  color: #fff;
+  text-shadow: 10px 0 #fff, -10px 0 #fff;
+}
+
+.menu a::before {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  color: transparent;
+  content: '•';
+  text-shadow: 0 0 transparent;
+  font-size: 0.7em;
+  -webkit-transition: text-shadow 0.3s, color 0.3s;
+  -moz-transition: text-shadow 0.3s, color 0.3s;
+  transition: text-shadow 0.3s, color 0.3s;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
 </style>
