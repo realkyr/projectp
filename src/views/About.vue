@@ -1,12 +1,12 @@
 <template>
   <div class="about">
     <div ref="propose" class="about-section">
-      <b-container class="nav" fluid>
+      <div class="container-fluid nav">
         <router-link id="homeNav" :to="{name: 'Home'}" tag="a">
           <HomeIcon />
         </router-link>
-      </b-container>
-      <b-container :class="sectionStyle('propose')">
+      </div>
+      <div :class="sectionStyle('propose')">
         <h1 class="pro-items topic">About</h1>
         <h6 class="pro-items subtopic">{ Source }</h6>
         <p class="pro-items aboutus">
@@ -20,10 +20,10 @@
           “ ทั้งที่ความจริงแล้ว ไม่ว่าร่างกายของคุณนั้นจะเป็นอย่างไร มันก็เป็นร่างกายของเรา  ”
           <div style="text-align: right">{ my body, my choice }</div>
         </div>
-      </b-container>
+      </div>
     </div>
   <div ref="learnto" class="about-section">
-    <b-container :class="sectionStyle('learnto')">
+    <div :class="sectionStyle('learnto')">
       <h1 class="learnto-items topic aboutus">“ Learn to<br/>
         <span style="margin-left: 35px">Love my body ”</span>
       </h1>
@@ -33,11 +33,11 @@
 concept 12 month of body shaming เพราะเรื่องของ body shaming มีอยู่ในทุกๆช่วงชีวิตของเราโดย
 จะมีเหล่าแก็งส์สาวจาก “ Fruity Bloom ” characterทั้ง 12 ตัว มาคอยเสริมความมั่นใจของเรา
       </p>
-    </b-container>
-    <b-img id="beoriginal" :src="require('@/assets/img/About/beoriginal.png')" />
+    </div>
+    <img id="beoriginal" :src="require('@/assets/img/About/beoriginal.png')" />
   </div>
   <div ref="fruit" class="about-section">
-    <b-container :class="sectionStyle('fruit')">
+    <div :class="sectionStyle('fruit')">
       <h1 class="fruit-items topic">
         “ Fruity Bloom ”
       </h1>
@@ -55,8 +55,8 @@ Bloom คือความเบ่งบาน เปรียบเสมื�
 สุดท้ายแล้วไม่ว่าเราจะมีรูปร่างหน้าตาแบบไหน เราก็มีดี มีคุณค่าที่พร้อมจะเบ่งบาน
 ในแบบของเราไม่ว่าจะช่วงเวลาไหนก็ตาม
       </p>
-    </b-container>
-    <b-container class="nav footer" fluid>
+    </div>
+    <div class="container-fluid nav footer">
       <div class="contact">
         Contact<br>
         Email : ppkhemmud@gmail.com<br>
@@ -65,7 +65,7 @@ Bloom คือความเบ่งบาน เปรียบเสมื�
       <router-link id="homeNav" :to="{name: 'Home'}" tag="a">
         <HomeIcon />
       </router-link>
-    </b-container>
+    </div>
   </div>
   </div>
 </template>
@@ -113,7 +113,8 @@ export default {
       return {
         [sectionName]: true,
         appear: this.visibility[name] === true,
-        disappear: this.visibility[name] === false
+        disappear: this.visibility[name] === false,
+        container: true
       }
     }
   }

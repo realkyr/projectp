@@ -6,21 +6,31 @@
       <div ref="canvas" class="canvas" id="box" :style="canvasStyle">
         <!-- <h2>{{ cursor }}</h2> -->
         <div ref="inner" v-on:mousemove="update" :style="innerCanvasStyle" class="inner-canvas">
-          <img class="title" :style="titleStyle" :src="require('../assets/Section 4.gif')" />
+          <img class="title" :style="titleStyle" :src="require('@/assets/img/Story/jan/1.gif')" />
         </div>
       </div>
     </v-touch>
   </div>
 </template>
 
+<style scoped>
+  html, body {
+    overflow: hidden;
+    font-family: Georgia,Times,Times New Roman,serif;
+  }
+</style>
+
 <style>
 body {
   margin: 0;
 }
 
-html, body {
-  overflow: hidden;
-  font-family: Georgia,Times,Times New Roman,serif;
+img {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .canvas {
@@ -53,7 +63,7 @@ export default {
     return {
       cursor: 1,
       canvasStyle: {
-        backgroundColor: '#FBC326'
+        backgroundColor: '#F8B978'
       },
       titleStyle: {
         'max-width': '0%',
@@ -135,7 +145,7 @@ export default {
       this.$forceUpdate()
     },
     onScroll (e, type) {
-      const color = ['#FBC326', 'green', 'blue']
+      const color = ['#F8B978', 'green', 'blue']
       console.log('mousewheel')
       if (type === 'mousewheel') {
         const delta = Math.max(-1, Math.min(1, e.wheelDelta))
