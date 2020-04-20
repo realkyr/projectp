@@ -4,25 +4,30 @@
       <div class="nav row">
         <img :src="require('@/assets/img/Shop/BG-01.png')" />
         <div class="col-6">
-          <!-- <img src="drive\ABOUTPAGE\icon\blue_home.png" width="10%" class="rounded float-left"> -->
-          Home
+          <router-link id="homeNavShop" :to="{name: 'Home'}" tag="a">
+            <HomeIcon/>
+          </router-link>
         </div>
         <div class="col-6">
-          <button class="rounded float-right">
-            Login
-          </button>
-          <button class="rounded float-right">
-            cart
-          </button>
-          <!-- <img src="drive\SHOPPAGE\reuse\icon\basket-point.png" width="10%" class="rounded float-right">
-          <img src="drive\SHOPPAGE\reuse\icon\login-point.png" width="10%" class="rounded float-right"> -->
+          <div class="d-flex justify-content-end">
+            <button data-toggle="modal" data-target="#login-modal" id="login">
+              <UserIcon />
+            </button>
+            <button data-badge="3" class="cart">
+              <CartIcon />
+            </button>
+          </div>
         </div>
       </div>
 
+      <Login />
+
       <div class="row" id="first">
         <div class="col-12 col-md-6">
-          <div class="d-flex justify-content-center">
+          <div @click="calendarInside" class="calendar-container d-flex justify-content-center">
+            <div class="white">View Inside</div>
             <img :src="require('@/assets/img/Shop/calendar.png')" width="80%">
+            <Calendar />
           </div>
         </div>
 
@@ -42,9 +47,8 @@
             </p>
             <br>
             <h3 class="text-center">120 ฿</h3>
-            <br>
             <div class="d-flex justify-content-center">
-              <button>Shop</button>
+              <button class="shop">Add to cart</button>
             </div>
           </div>
         </div>
@@ -62,21 +66,24 @@
 
       <div class="product-img">
         <div class="row">
-          <div class="product-outer col-12 col-md-4">
-            <div class="product">
-              <img :src="require('@/assets/img/About/mochipeach.jpg')">
+          <div class="product-outer col-12 col-lg-4">
+            <div @click="changeView('notebook')" class="product">
+              <div class="white">SHOP NOW</div>
+              <img :src="require('@/assets/img/Shop/clear spring 01.jpg')">
             </div>
             <h6>Fruity Bloom Notebook</h6>
           </div>
-          <div class="product-outer col-12 col-md-4">
-            <div class="product">
-              <img :src="require('@/assets/img/About/mochipeach.jpg')">
+          <div class="product-outer col-12 col-lg-4">
+            <div @click="changeView('notepad')" class="product">
+              <div class="white">SHOP NOW</div>
+              <img :src="require('@/assets/img/Shop/all.jpg')">
             </div>
             <h6>Fruity Bloom Notepad</h6>
           </div>
-          <div class="product-outer col-12 col-md-4">
-            <div class="product">
-              <img :src="require('@/assets/img/About/mochipeach.jpg')">
+          <div class="product-outer col-12 col-lg-4">
+            <div @click="changeView('pen')" class="product">
+              <div class="white">SHOP NOW</div>
+              <img :src="require('@/assets/img/Shop/jan(pen).jpg')">
             </div>
             <h6>Fruity Bloom Pen</h6>
           </div>
@@ -84,15 +91,17 @@
       </div>
 
       <img id="shopnow-pattern" :src="require('@/assets/img/Shop/shopnow pattern-01.png')">
-      <div class="shopnow ">
-        <div class="text-center">
-          <Button>Shop Now</Button>
-          <div>V</div>
-        </div>
+      <div class="shopnow">
+        <button @click="changeView('notebook')" class="shopnow-btn">
+          <div class="text">Shop Now</div>
+          <Pointer />
+        </button>
       </div>
-      <Product />
+      <Product v-if="view === 'notebook'" />
+      <MProduct product='pen' v-if="view === 'pen'" />
+      <MProduct product='notepad' v-if="view === 'notepad'" />
     </div>
-    <template v-if="true">
+    <template v-if="view">
       <div class="row">
         <div class="col-12">
           <p class="text-right" style="color: #4997cc; margin-top: 100px; padding: 20px 10px;">
@@ -109,119 +118,338 @@
 </template>
 
 <script>
+import Login from '@/components/Login.vue'
+import Calendar from '@/components/Shop/Calendar.vue'
+import HomeIcon from '@/components/icons/Home.vue'
+import UserIcon from '@/components/icons/User.vue'
+import CartIcon from '@/components/icons/Cart.vue'
 import Product from '@/components/Product.vue'
+import MProduct from '@/components/Shop/Month-Product.vue'
+import Pointer from '@/components/icons/Pointer.vue'
 import '@/assets/Fonts/font.css'
+
 export default {
   components: {
-    Product
+    Product,
+    HomeIcon,
+    UserIcon,
+    CartIcon,
+    Pointer,
+    Login,
+    Calendar,
+    MProduct
+  },
+  data () {
+    return {
+      view: null
+    }
+  },
+  methods: {
+    calendarInside () {
+      // eslint-disable-next-line no-undef
+      $('#calendar-modal').modal()
+    },
+    changeView (name) {
+      this.view = name
+      this.$nextTick(() => {
+        if (this.view) {
+          console.log(document.querySelector('#third'))
+          document.querySelector('#third').scrollIntoView()
+        }
+      })
+    }
   }
 }
 </script>
 
+<style>
+.calendar-container {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.calendar-container .white{
+  left: 32%;
+  width: 20% !important;
+  height: 20% !important;
+}
+
+.calendar-container:hover .white,
+.calendar-container:focus .white {
+  transform: translateY(0);
+}
+
+.cls-1 {
+  fill: #6CAADD;
+  transition: all 0.2s;
+}
+
+.cart-background {
+  fill: #6CAADD;
+  transition: all 0.2s;
+}
+
+.cart:hover .cart-background {
+  fill: #FFFFFF;
+}
+
+#homeNavShop:hover .cls-1 {
+  fill: #FFFFFF;
+}
+
+#login .background {
+  transition: all 0.2s;
+}
+
+#login:hover .background {
+  fill: #FFFFFF;
+}
+
+#login:hover .cls-2 {
+  fill: #6caadd;
+}
+
+.shopnow-btn #pointer {
+  margin-top: 10px;
+  stroke: #4896CC;
+  stroke-width: 1px;
+  stroke-linejoin: round;
+}
+
+.shopnow-btn .pointer-background {
+  fill: #4896CC;
+  transition: all 0.2s;
+}
+
+.shopnow-btn:hover .pointer-background {
+  fill: white;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+</style>
+
 <style scoped>
-  img {
-    align-self: center;
-  }
+.cart[data-badge] {
+  position:relative;
+}
 
-  .nav {
-    padding: 20px 10px;
-  }
+button {
+  padding: 0;
+  border: none;
+  background: none;
+  margin-left: 15px;
+}
 
-  h1, h2, h3,
-  h4, h5, h6 {
-    color: #3994D1;
-    font-family: 'YoungSerif';
-  }
+.cart[data-badge]:after {
+  position:absolute;
+  right:-10px;
+  top:-10px;
+  padding: 0px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  color:#fff;
+  background-color: #EA5242;
+  font-size: 15px;
+  border-radius: 50%;
+  content: attr(data-badge);
+}
 
-  p {
-    font-family: 'myriad-pro', sans-serif;
-    color: #5AB0E0;
-    font-size: 1.5em;
-  }
+img {
+  align-self: center;
+}
 
-  .nav img {
-    position: absolute;
-    z-index: 0;
-    width: 100%;
-    left: 0;
-    top: 0;
-  }
+.nav {
+  padding: 20px 10px;
+}
 
-  .product {
-    display: flex;
-    width: 50%;
-  }
+h1, h2, h3,
+h4, h5, h6 {
+  color: #3994D1;
+  font-family: 'YoungSerif';
+}
 
-  .product-outer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 100px;
-    padding-bottom: 100px;
-  }
+p {
+  font-family: 'myriad-pro', sans-serif;
+  color: #5AB0E0;
+  font-size: 1.5em;
+}
 
-  .product-outer h6 {
-    margin-top: 30px;
-  }
+.modal-open .nav img {
+  padding-right: 17px;
+}
 
-  .product-outer:nth-child(2) {
-    border-left: 1px solid #4896CC;
-    border-right: 1px solid #4896CC;
+@media screen and (max-width: 1024px) {
+  .modal-open .nav img {
+    padding-right: 0;
   }
+}
 
+.nav img {
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+.product {
+  display: flex;
+  justify-content: center;
+}
+
+.product-outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.product-outer h6 {
+  margin-top: 30px;
+}
+
+.product-outer:nth-child(2) {
+  border-left: 1px solid #4896CC;
+  border-right: 1px solid #4896CC;
+}
+
+.product img {
+  height: 25vh !important;
+}
+
+@media screen and (max-width: 1024px) {
   .product img {
-    width: 100%;
+    height: 20vh !important;
   }
+}
 
-  .shopnow {
-    margin-top: 15%;
-    margin-bottom: 20px;
-    z-index: 1;
+@media screen and (max-width: 768px) {
+  .product-outer:nth-child(2) {
+    border-left: 0;
+    border-right: 0;
   }
+}
 
-  .shopnow button {
-    z-index: 99;
-  }
+.product img {
+  max-width: 100vw;
+  height: 19vh;
+}
 
-  #shopnow-pattern {
-    width: 100%;
-    position: absolute;
-    z-index: -1;
-    left: 0;
-  }
+.shopnow {
+  margin-top: 15%;
+  margin-bottom: 20px;
+  z-index: 1;
+}
 
-  .row {
-    margin-top: 50px;
-    margin: auto;
-  }
+.shopnow button {
+  z-index: 99;
+}
 
-  #first {
-    margin-top: 20%;
-  }
+#shopnow-pattern {
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+  left: 0;
+}
 
-  #second {
-    margin: 5%;
-  }
+.row {
+  margin-top: 50px;
+  margin: auto;
+}
 
-  #fourth {
-    margin-left: 30px;
-    margin-right: 30px;
-  }
+#first {
+  margin-top: 20%;
+}
 
-  #text {
-    margin-top: 10px;
-  }
+#second {
+  margin: 5%;
+}
 
-  #img-fourth {
-    margin-top: 50px;
-    max-width: 100%;
-    height: auto;
-  }
+#fourth {
+  margin-left: 30px;
+  margin-right: 30px;
+}
 
-  .footer {
-    text-align: center;
-    font-size: 12px;
-    padding: 15px;
-  }
+#text {
+  margin-top: 10px;
+}
+
+#img-fourth {
+  margin-top: 50px;
+  max-width: 100%;
+  height: auto;
+}
+
+.footer {
+  text-align: center;
+  font-size: 12px;
+  padding: 15px;
+}
+
+.shop {
+  background: #4896CC;
+  color: white;
+  font-size: 20px;
+  font-family: myriad-pro, sans-serif;
+  font-weight: 700;
+  padding: 5px 25px;
+  border-radius: 20px;
+  margin: 0;
+  cursor: pointer;
+  border: 1px solid #4896CC;
+  transition: all 0.5s;
+}
+
+.shop:hover {
+  background: white;
+  color: #4896CC;
+}
+
+.shopnow {
+  display: flex;
+  justify-content: center;
+}
+
+.shopnow-btn {
+  cursor: pointer;
+  font-family: 'YoungSerif';
+  font-size: 18pt;
+  color: #4896CC;
+}
+
+.product {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.product:hover .white{
+  transform: translateY(0);
+}
+
+.white {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  font-family: 'YoungSerif';
+  width: 100%;
+  height: 30%;
+  opacity: 0.5;
+  bottom: 0;
+  transform: translateY(100%);
+  transition: all 0.3s;
+}
+
+button:focus {
+  outline:0;
+}
 
 </style>
