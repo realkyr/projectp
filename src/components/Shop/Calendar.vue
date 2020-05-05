@@ -90,7 +90,16 @@
 
         <div class="row justify-content-end">
           <div class="col-3">
-            <button class="shop">Add to cart</button>
+            <button @click="addToCart({
+                id: 'calendar',
+                detail: {
+                  product: 'Calendar',
+                  image: require('@/assets/img/Shop/calendar/all1-01.jpg'),
+                  striped: '',
+                  amount: 1,
+                  price: 120
+                }
+              })" class="shop">Add to cart</button>
           </div>
         </div>
       </div>
@@ -99,6 +108,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 import ArrowLeft from '@/components/icons/arrow-left.vue'
 import ArrowRight from '@/components/icons/arrow-right.vue'
 export default {
@@ -138,7 +149,8 @@ export default {
   methods: {
     changePreview (range, index) {
       this.preview = this.calendar[range][index]
-    }
+    },
+    ...mapMutations(['addToCart'])
   }
 }
 </script>
@@ -150,6 +162,12 @@ img {
 
 .modal-content {
   padding: 50px;
+}
+
+@media screen and (max-width: 400px) {
+  .modal-content {
+    padding: 20px;
+  }
 }
 
 .preview {

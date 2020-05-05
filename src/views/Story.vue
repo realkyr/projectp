@@ -1,174 +1,201 @@
 <template>
-  <div id="app">
-    <v-touch
-      @pan="event => onScroll(event, 'handswipe')"
-    >
-      <div ref="canvas" class="canvas" id="box" :style="canvasStyle">
-        <!-- <h2>{{ cursor }}</h2> -->
-        <div ref="inner" v-on:mousemove="update" :style="innerCanvasStyle" class="inner-canvas">
-          <img class="title" :style="titleStyle" :src="require('@/assets/img/Story/jan/1.gif')" />
+  <div id="story-big-con" style="height: 100vh; width: 100vw; overflow: hidden; background: #AEE0F4;">
+    <transition name="fade" appear>
+      <div id="start-page" v-if="finish && !start" style="height: 100vh;" class="story-container d-flex flex-column justify-content-center align-items-center">
+        <div class="band-container" style="position: relative;">
+          <img class="start-story-branding" :src="require('@/assets/img/Story/startstory-01.png')" alt="">
+        </div>
+        <div @click="startStory" class="start-button" style="position: relative;">
+          <img class="border-star" :src="require('@/assets/img/Story/textborder-star.png')" alt="">
+          <img class="arrow-up" :src="require('@/assets/img/Story/arrowup.png')" alt="">
         </div>
       </div>
-    </v-touch>
+    </transition>
+    <transition name="fade" appear>
+      <div v-if="!finish" style="height: 100vh;" class="story-container d-flex flex-column justify-content-center align-items-center">
+        <img :src="require('@/assets/img/Story/lOADING_2.gif')" alt="">
+        <h4 class="load">LOADING</h4>
+      </div>
+    </transition>
+
+    <Month v-if="start" />
+
+    <router-link id="homeNavStory" :to="{name: 'Home'}" tag="a">
+      <HomeIcon/>
+    </router-link>
   </div>
 </template>
 
-<style scoped>
-  html, body {
-    overflow: hidden;
-    font-family: Georgia,Times,Times New Roman,serif;
-  }
-</style>
-
 <style>
-body {
-  margin: 0;
-}
-
-img {
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-}
-
-.canvas {
-  perspective: 40px;
-  height: 100vh;
-  overflow: hidden;
-  transition: all 1s;
-}
-
-.inner-canvas {
-  position: relative;
-  height: 100%;
-  transition: all 0.5s;
-}
-
-.title {
-  margin: 0;
+#homeNavStory {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: none;
-  transition-timing-function: none;
+  left: 20px;
+  top: 20px;
+}
+
+#homeNavStory .cls-1 {
+  fill: white;
+  fill-opacity: 0.5;
+  transition: all 0.2s;
+}
+
+#homeNavStory:hover .cls-1 {
+  fill-opacity: 1;
 }
 </style>
 
 <script>
+import '@/assets/css/story.css'
+import '@/assets/css/animation.css'
+import HomeIcon from '@/components/icons/Home.vue'
+import Month from '@/views/Month.vue'
+
 export default {
+  components: {
+    HomeIcon,
+    Month
+  },
   data () {
     return {
-      cursor: 1,
-      canvasStyle: {
-        backgroundColor: '#F8B978'
-      },
-      titleStyle: {
-        'max-width': '0%',
-        /* transition: all 0.5s, */
-        /* transition-timing-function: ease-in-out; */
-        opacity: 1
-      },
-      innerCanvasStyle: {}
+      finish: false,
+      start: false,
+      month: 'jan'
     }
   },
   mounted () {
-    window.addEventListener('mousewheel', event => this.onScroll(event, 'mousewheel'))
-  },
-  computed: {
-    cursorRange () {
-      const txt = Math.floor(this.cursor) + ''
-      if (txt.length === 1) return 0
-      return txt.charAt(txt.length - 2)
-    }
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.finish = true
+      }, 5000)
+    })
   },
   methods: {
-    titleAnimate (type) {
-      if (type === 'mousewheel') {
-        this.titleStyle['transition-timing-function'] = 'ease-in-out'
-        this.titleStyle.transition = 'all 0.5s'
-      } else {
-        this.titleStyle['transition-timing-function'] = 'none'
-        this.titleStyle.transition = 'none'
-      }
-      // sizing
-      const size = this.cursor
-      this.titleStyle['max-width'] = size * 1.1 + '%'
-
-      // opacity
-      if (this.cursor < 100) {
-        this.titleStyle.opacity = 1
-      } else {
-        this.titleStyle['transition-timing-function'] = 'ease-in-out'
-        this.titleStyle.transition = 'all 0.5s'
-        this.titleStyle.opacity = 0
-      }
-    },
-    update (e) {
-      const container = this.$refs.canvas
-      const inner = this.$refs.inner
-      const mouse = {
-        _x: 0,
-        _y: 0,
-        x: 0,
-        y: 0,
-        updatePosition: function (event) {
-          var e = event || window.event
-          this.x = e.clientX - this._x
-          this.y = (e.clientY - this._y) * -1
-        },
-        setOrigin: function (e) {
-          this._x = e.offsetLeft + Math.floor(e.offsetWidth / 2)
-          this._y = e.offsetTop + Math.floor(e.offsetHeight / 2)
-        },
-        show: function () { return '(' + this.x + ', ' + this.y + ')' }
-      }
-
-      mouse.setOrigin(container)
-      mouse.updatePosition(e)
-
-      const updateTransformStyle = (x, y) => {
-        const style = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg)'
-        this.innerCanvasStyle.transform = style
-        this.innerCanvasStyle.webkitTransform = style
-        this.innerCanvasStyle.mozTransform = style
-        this.innerCanvasStyle.msTransform = style
-        this.innerCanvasStyle.oTransform = style
-      }
-
-      updateTransformStyle(
-        (mouse.y / inner.offsetHeight / 2).toFixed(2),
-        (mouse.x / inner.offsetWidth / 2).toFixed(2)
-      )
-      this.$forceUpdate()
-    },
-    onScroll (e, type) {
-      const color = ['#F8B978', 'green', 'blue']
-      console.log('mousewheel')
-      if (type === 'mousewheel') {
-        const delta = Math.max(-1, Math.min(1, e.wheelDelta))
-        if (delta === -1) {
-          this.cursor += 2.5
-        } else {
-          this.cursor -= 2.5
-          if (this.cursor < 1) this.cursor = 0
-        }
-      } else if (type === 'handswipe') {
-        console.log(e)
-        const direction = e.additionalEvent === 'panup' ? -1
-          : e.additionalEvent === 'pandown' ? 1 : 0
-        if (direction === -1) {
-          this.cursor += 1
-        } else {
-          this.cursor -= 1
-          if (this.cursor < 1) this.cursor = 0
-        }
-      }
-      this.canvasStyle.backgroundColor = color[Math.floor(this.cursor / 100)]
-      this.titleAnimate(type) // calculate title size
+    startStory () {
+      this.start = true
+      document.querySelector('#story-big-con').style.background = '#F8B978'
+      document.querySelector('#start-page').classList.add('starting')
     }
   }
 }
 </script>
+
+<style scoped>
+html, body {
+  overflow: hidden;
+}
+
+.start-button {
+  height: 150px;
+  width: 150px;
+}
+.start-button .border-star {
+  position: absolute;
+  width: 100%;
+}
+
+.start-button {
+  position: relative;
+  margin-top: 30px;
+  z-index: 99;
+  cursor: pointer;
+}
+
+.start-button:hover img.border-star {
+  animation: rotate 10s infinite linear both;
+}
+
+.start-button .arrow-up{
+  position: relative;
+  max-width: 50%;
+  left: 25%;
+  top: 25%;
+}
+
+@media screen and (max-width: 1024px) {
+
+  .start-button {
+    height: 100px;
+    width: 100px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .start-button {
+    height: 80px;
+    width: 80px;
+  }
+}
+
+.starting#start-page {
+  background: #F8B978;
+  transition: all 10s;
+}
+
+.starting .start-button{
+  height: 500px;
+  width: 500px;
+  opacity: 0;
+  transition: all 5s;
+}
+
+.band-container {
+  width: 50%;
+  height: 45%;
+  /* transform: translate(0, -150%); */
+}
+
+.band-container .start-story-branding {
+  position: absolute;
+  width: 100%;
+}
+
+.starting .band-container {
+  width: 300%;
+  opacity: 0;
+  transition: all 5s;
+}
+
+@keyframes startStory {
+  0% {
+    transform:  scale(100%);
+  }
+  100% {
+    transform:  scale(1000%);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform:  rotateZ(0deg);
+  }
+  100% {
+    transform:  rotateZ(360deg);
+  }
+}
+
+h1, h2, h3,
+h4, h5, h6 {
+  font-family: 'YoungSerif';
+}
+
+.load {
+  color: #53A4DB;
+  animation: loading 3s infinite linear;
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.story-container {
+  background: #AEE0F4;
+}
+</style>

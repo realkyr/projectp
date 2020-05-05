@@ -87,7 +87,7 @@
           <br>
 
           <h3>120 ฿</h3>
-          <button class="shop">Add To Cart</button>
+          <button @click="addProductToCart" class="shop">Add To Cart</button>
         </div>
       </div>
     </div>
@@ -140,6 +140,7 @@
 <script>
 import ArrowLeft from '@/components/icons/arrow-left.vue'
 import ArrowRight from '@/components/icons/arrow-right.vue'
+import { mapMutations } from 'vuex'
 export default {
   components: {
     ArrowLeft,
@@ -181,6 +182,24 @@ export default {
     select (season) {
       this.selected = season
       this.preview = this.notebook[season]
+    },
+    ...mapMutations(['addToCart']),
+    addProductToCart () {
+      let season = ''
+      if (this.selected === 'spring') season = 'Clear Spring'
+      if (this.selected === 'summer') season = 'Fresh Summer'
+      if (this.selected === 'autumn') season = 'Warm Autumn'
+      if (this.selected === 'winter') season = 'Frosty Winter'
+      this.addToCart({
+        id: 'notepad-' + this.selected,
+        detail: {
+          amount: 1,
+          product: 'Notepad',
+          striped: season,
+          image: this.notebook[this.selected][0],
+          price: 120
+        }
+      })
     }
   }
 }

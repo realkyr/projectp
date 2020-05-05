@@ -1,0 +1,269 @@
+.three-dot {
+  position: absolute;
+}
+
+.three-dot.left {
+  left: 0;
+  top: 42%;
+  animation: fade 5s ease-out 6s backwards;
+}
+
+.three-dot.right {
+  right: 0;
+  top: 42%;
+  animation: fade 5s ease-out 6s backwards;
+}
+
+.three-dot .dot {
+  width: 20px;
+  height: 20px;
+  margin: 20px;
+  border-radius: 50%;
+}
+
+.three-dot.left.jan .dot:nth-child(1),
+.three-dot.right.jan .dot:nth-child(3)  {
+  background: #2E7249;
+  transition: all 0.5s;
+}
+
+.three-dot.left.jan .dot:nth-child(2),
+.three-dot.right.jan .dot:nth-child(2) {
+  background: #ED7324;
+  transition: all 0.5s;
+}
+
+.three-dot.left.jan .dot:nth-child(3),
+.three-dot.right.jan .dot:nth-child(1) {
+  background: #F8E8AA;
+  transition: all 0.5s;
+}
+
+
+.three-dot.left.feb .dot:nth-child(1),
+.three-dot.right.feb .dot:nth-child(3)  {
+  background: #2968A5;
+  transition: all 0.5s;
+}
+
+.three-dot.left.feb .dot:nth-child(2),
+.three-dot.right.feb .dot:nth-child(2) {
+  background: #EDCC43;
+  transition: all 0.5s;
+}
+
+.three-dot.left.feb .dot:nth-child(3),
+.three-dot.right.feb .dot:nth-child(1) {
+  background: #EED854;
+  transition: all 0.5s;
+}
+
+/* mar dot */
+
+.three-dot.left.mar .dot:nth-child(1),
+.three-dot.right.mar .dot:nth-child(3)  {
+  background: #4C9154;
+  transition: all 0.5s;
+}
+
+.three-dot.left.mar .dot:nth-child(2),
+.three-dot.right.mar .dot:nth-child(2) {
+  background: #7CBF84;
+  transition: all 0.5s;
+}
+
+.three-dot.left.mar .dot:nth-child(3),
+.three-dot.right.mar .dot:nth-child(1) {
+  background: #DD6B6B;
+  transition: all 0.5s;
+}
+
+/* apr dot */
+
+.three-dot.left.apr .dot:nth-child(1),
+.three-dot.right.apr .dot:nth-child(3)  {
+  background: #628642;
+  transition: all 0.5s;
+}
+
+.three-dot.left.apr .dot:nth-child(2),
+.three-dot.right.apr .dot:nth-child(2) {
+  background: #96C569;
+  transition: all 0.5s;
+}
+
+.three-dot.left.apr .dot:nth-child(3),
+.three-dot.right.apr .dot:nth-child(1) {
+  background: #E94E6C;
+  transition: all 0.5s;
+}
+
+/* may dot */
+
+.three-dot.left.may .dot:nth-child(1),
+.three-dot.right.may .dot:nth-child(3)  {
+  background: #639A6F;
+  transition: all 0.5s;
+}
+
+.three-dot.left.may .dot:nth-child(2),
+.three-dot.right.may .dot:nth-child(2) {
+  background: #EFD35E;
+  transition: all 0.5s;
+}
+
+.three-dot.left.may .dot:nth-child(3),
+.three-dot.right.may .dot:nth-child(1) {
+  background: #B93531;
+  transition: all 0.5s;
+}
+
+/* jun dot */
+
+.three-dot.left.jun .dot:nth-child(1),
+.three-dot.right.jun .dot:nth-child(3)  {
+  background: #89C277;
+  transition: all 0.5s;
+}
+
+.three-dot.left.jun .dot:nth-child(2),
+.three-dot.right.jun .dot:nth-child(2) {
+  background: #3C2D7A;
+  transition: all 0.5s;
+}
+
+.three-dot.left.jun .dot:nth-child(3),
+.three-dot.right.jun .dot:nth-child(1) {
+  background: #4C3C91;
+  transition: all 0.5s;
+}
+
+/* jul dot */
+
+.three-dot.left.jul .dot:nth-child(1),
+.three-dot.right.jul .dot:nth-child(3)  {
+  background: #578A5F;
+  transition: all 0.5s;
+}
+
+.three-dot.left.jul .dot:nth-child(2),
+.three-dot.right.jul .dot:nth-child(2) {
+  background: #E25736;
+  transition: all 0.5s;
+}
+
+.three-dot.left.jul .dot:nth-child(3),
+.three-dot.right.jul .dot:nth-child(1) {
+  background: #EF8063;
+  transition: all 0.5s;
+}
+
+/* aug dot */
+
+.three-dot.left.aug .dot:nth-child(1),
+.three-dot.right.aug .dot:nth-child(3)  {
+  background: #2B5E33;
+  transition: all 0.5s;
+}
+
+.three-dot.left.aug .dot:nth-child(2),
+.three-dot.right.aug .dot:nth-child(2) {
+  background: #F8E5B3;
+  transition: all 0.5s;
+}
+
+.three-dot.left.aug .dot:nth-child(3),
+.three-dot.right.aug .dot:nth-child(1) {
+  background: #AACB61;
+  transition: all 0.5s;
+}
+
+/* sep dot */
+
+.three-dot.left.sep .dot:nth-child(1),
+.three-dot.right.sep .dot:nth-child(3)  {
+  background: #507735;
+  transition: all 0.5s;
+}
+
+.three-dot.left.sep .dot:nth-child(2),
+.three-dot.right.sep .dot:nth-child(2) {
+  background: #8E6036;
+  transition: all 0.5s;
+}
+
+.three-dot.left.sep .dot:nth-child(3),
+.three-dot.right.sep .dot:nth-child(1) {
+  background: #B58552;
+  transition: all 0.5s;
+}
+
+/* oct dot */
+
+.three-dot.left.oct .dot:nth-child(1),
+.three-dot.right.oct .dot:nth-child(3)  {
+  background: #FCF3DB;
+  transition: all 0.5s;
+}
+
+.three-dot.left.oct .dot:nth-child(2),
+.three-dot.right.oct .dot:nth-child(2) {
+  background: #AA3030;
+  transition: all 0.5s;
+}
+
+.three-dot.left.oct .dot:nth-child(3),
+.three-dot.right.oct .dot:nth-child(1) {
+  background: #E25050;
+  transition: all 0.5s;
+}
+
+/* nov dot */
+
+.three-dot.left.nov .dot:nth-child(1),
+.three-dot.right.nov .dot:nth-child(3)  {
+  background: #7E9B5C;
+  transition: all 0.5s;
+}
+
+.three-dot.left.nov .dot:nth-child(2),
+.three-dot.right.nov .dot:nth-child(2) {
+  background: #F7EBC6;
+  transition: all 0.5s;
+}
+
+.three-dot.left.nov .dot:nth-child(3),
+.three-dot.right.nov .dot:nth-child(1) {
+  background: #C53130;
+  transition: all 0.5s;
+}
+
+/* dec dot */
+
+.three-dot.left.dec .dot:nth-child(1),
+.three-dot.right.dec .dot:nth-child(3)  {
+  background: #F9787F;
+  transition: all 0.5s;
+}
+
+.three-dot.left.dec .dot:nth-child(2),
+.three-dot.right.dec .dot:nth-child(2) {
+  background: #FDC801;
+  transition: all 0.5s;
+}
+
+.three-dot.left.dec .dot:nth-child(3),
+.three-dot.right.dec .dot:nth-child(1) {
+  background: #E84C4D;
+  transition: all 0.5s;
+}
+
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

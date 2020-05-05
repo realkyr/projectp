@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div :class="{noscroll: $refs.cart ? $refs.cart.active : false}">
+    <Cart ref="cart" />
     <div class="container-fluid">
       <div class="nav row">
         <img :src="require('@/assets/img/Shop/BG-01.png')" />
@@ -13,7 +14,7 @@
             <button data-toggle="modal" data-target="#login-modal" id="login">
               <UserIcon />
             </button>
-            <button data-badge="3" class="cart">
+            <button @click="$refs.cart.active = true" :data-badge="cartAmount" :class="{cart: true, badge: cartAmount > 0 }">
               <CartIcon />
             </button>
           </div>
@@ -48,7 +49,16 @@
             <br>
             <h3 class="text-center">120 ฿</h3>
             <div class="d-flex justify-content-center">
-              <button class="shop">Add to cart</button>
+              <button @click="addToCart({
+                id: 'calendar',
+                detail: {
+                  product: 'Calendar',
+                  image: require('@/assets/img/Shop/calendar/all1-01.jpg'),
+                  striped: '',
+                  amount: 1,
+                  price: 120
+                }
+              })" class="shop">Add to cart</button>
             </div>
           </div>
         </div>
@@ -119,6 +129,7 @@
 
 <script>
 import Login from '@/components/Login.vue'
+import Cart from '@/components/Shop/Cart.vue'
 import Calendar from '@/components/Shop/Calendar.vue'
 import HomeIcon from '@/components/icons/Home.vue'
 import UserIcon from '@/components/icons/User.vue'
@@ -126,6 +137,7 @@ import CartIcon from '@/components/icons/Cart.vue'
 import Product from '@/components/Product.vue'
 import MProduct from '@/components/Shop/Month-Product.vue'
 import Pointer from '@/components/icons/Pointer.vue'
+import { mapGetters, mapMutations } from 'vuex'
 import '@/assets/Fonts/font.css'
 
 export default {
@@ -137,7 +149,8 @@ export default {
     Pointer,
     Login,
     Calendar,
-    MProduct
+    MProduct,
+    Cart
   },
   data () {
     return {
@@ -157,12 +170,17 @@ export default {
           document.querySelector('#third').scrollIntoView()
         }
       })
-    }
+    },
+    ...mapMutations(['addToCart'])
+  },
+  computed: {
+    ...mapGetters(['cartAmount'])
   }
 }
 </script>
 
 <style>
+
 .calendar-container {
   position: relative;
   overflow: hidden;
@@ -244,7 +262,7 @@ button {
   margin-left: 15px;
 }
 
-.cart[data-badge]:after {
+.cart.badge[data-badge]:after {
   position:absolute;
   right:-10px;
   top:-10px;

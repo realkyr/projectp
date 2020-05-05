@@ -65,7 +65,7 @@
           <br>
 
           <h3>{{product === 'pen'? 30 : 65}} ฿</h3>
-          <button class="shop">Add To Cart</button>
+          <button @click="addToCart(item)" class="shop">Add To Cart</button>
         </div>
       </div>
     </div>
@@ -132,6 +132,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import ArrowLeft from '@/components/icons/arrow-left.vue'
 import ArrowRight from '@/components/icons/arrow-right.vue'
 export default {
@@ -159,6 +160,21 @@ export default {
   methods: {
     select (month) {
       this.selected = month
+    },
+    ...mapMutations(['addToCart'])
+  },
+  computed: {
+    item () {
+      return {
+        id: this.product + '-' + this.selected,
+        detail: {
+          product: this.product.charAt(0).toUpperCase() + this.product.substring(1),
+          image: require(`@/assets/img/Shop/${this.product}/${this.selected}(${this.product}).jpg`),
+          striped: this.selected,
+          amount: 1,
+          price: this.product === 'pen' ? 30 : 65
+        }
+      }
     }
   }
 }
