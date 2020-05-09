@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="landing"></div>
+    <div id="landing" class="landing"></div>
   </div>
 </template>
 
@@ -21,3 +21,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.landing {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
