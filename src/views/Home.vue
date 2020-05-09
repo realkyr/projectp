@@ -1,8 +1,8 @@
 <template>
   <div style="height: 100vh; background-color: #cbecfd; overflow: hidden;">
     <transition name="fade" appear>
-      <div v-if="isLoadFinish" class="container-fluid home" :style="homeStyle">
-        <img id="image-cloud" :src="require('../assets/cloud-01.png')" />
+      <div v-if="isLoadFinish" class="home">
+        <!-- <img id="image-cloud" :src="require('../assets/cloud-01.png')" />
         <img class="cloud" id="c-1" :src="require('@/assets/cloud.png')" >
         <img class="cloud" id="c-6" :src="require('@/assets/cloud.png')" >
         <img class="cloud" id="c-4" :src="require('@/assets/cloud.png')" >
@@ -35,7 +35,8 @@
               </transition>
             </div>
           </div>
-        </div>
+        </div> -->
+        <LandingPage />
       </div>
       <h1 class="loading" v-else>
         <video v-if="start" ref="opening" :width="screen.width" preload autoplay>
@@ -59,6 +60,7 @@
 
 <script>
 import NProgress from 'nprogress'
+import LandingPage from '@/components/Home/LandingPage'
 import '@/assets/css/animation.css'
 import '@/assets/css/nprogress.css'
 import '@/assets/css/youngserif.css'
@@ -66,51 +68,18 @@ import '@/assets/css/youngserif.css'
 export default {
   name: 'Home',
   components: {
-    // HelloWorld
+    LandingPage
   },
   data () {
     return {
       appearing: false,
-      homeStyle: {
-        width: '100vw',
-        height: '100vh',
-        'background-position': 'center',
-        'background-image': 'url(' + require('../assets/bg-01.jpg') + ')',
-        '-webkit-background-size': 'cover',
-        '-moz-background-size': 'cover',
-        '-o-background-size': 'cover',
-        'background-size': 'cover'
-      },
       screen: {
         height: window.innerHeight,
         width: window.innerWidth
       }
     }
   },
-  mounted () {
-    this.handleResize()
-    window.addEventListener('resize', this.handleResize)
-    if (this.isScreenVertical || (this.isMobile && this.isScreenVertical)) {
-      this.homeStyle['background-image'] = 'url(' + require('../assets/mobile-01.jpg') + ')'
-    } else {
-      this.homeStyle['background-image'] = 'url(' + require('../assets/bg-01.jpg') + ')'
-    }
-  },
   computed: {
-    isScreenVertical () {
-      return this.screen.height >= this.screen.width
-    },
-    isMobile () {
-      return this.screen.width <= 700 || this.screen.height <= 400
-    },
-    menuClasses () {
-      return {
-        container: true,
-        mobile: this.isMobile,
-        verticle: this.isScreenVertical,
-        'menu-container': true
-      }
-    },
     loaded () {
       return this.loadingPercent + '%'
     },
@@ -119,13 +88,6 @@ export default {
     },
     start () {
       return this.$store.state.start
-    },
-    logo () {
-      if (this.isScreenVertical || (this.isMobile && this.isScreenVertical)) {
-        return require('../assets/LOGOCloud.png')
-      } else {
-        return require('../assets/logo.png')
-      }
     }
   },
   methods: {
@@ -146,19 +108,6 @@ export default {
         this.$store.state.isLoadFinish = true
       }, 12000)
     }
-  },
-  watch: {
-    screen: {
-      handler (newScreen, oldScreen) {
-        console.log('screenChange')
-        if (this.isScreenVertical || (this.isMobile && this.isScreenVertical)) {
-          this.homeStyle['background-image'] = 'url(' + require('../assets/mobile-01.jpg') + ')'
-        } else {
-          this.homeStyle['background-image'] = 'url(' + require('../assets/bg-01.jpg') + ')'
-        }
-      },
-      deep: true
-    }
   }
 }
 </script>
@@ -172,207 +121,6 @@ body {
 <style>
 body {
   margin: 0;
-}
-
-#image-people.verticle {
-  max-width: 100vw;
-  max-height: 60vh;
-}
-
-#image-people.verticle.mobile {
-  max-width: 100vw;
-  max-height: 50vh;
-}
-
-#image-people {
-  max-width: 70vw;
-  max-height: 100vh;
-  z-index: 1;
-}
-
-#logo {
-  max-width: 500px;
-  z-index: 2;
-}
-
-.menu-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-family: 'YoungSerif';
-  font-size: 30pt;
-}
-
-#image-cloud {
-  z-index: 2;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 70vw;
-}
-
-.menu {
-  list-style: none;
-  z-index: 2;
-}
-
-ul.menu {
-  padding: 0;
-}
-
-.menu li {
-  display: block;
-  margin: 50px 0;
-}
-
-.menu-container.verticle {
-  height: 50vh;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-direction: column;
-}
-
-.menu.verticle {
-  padding: 0;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-}
-
-.menu.mobile li {
-  display: block;
-  margin: 10px 0;
-}
-
-@media (max-width: 1440px) {
-  #logo {
-    max-width: 400px
-  }
-}
-
-@media (max-width: 1280px) {
-  .menu-container {
-    padding-top: 50px;
-    font-size: 25pt;
-  }
-}
-
-@media (max-width: 1199px) {
-
-  #logo {
-    max-width: 300px
-  }
-}
-
-@media (max-width: 991px) {
-  #image-people {
-    max-width: 65vw;
-  }
-
-  .menu li {
-    display: block;
-    margin: 30px 0;
-  }
-}
-
-@media (max-width: 767px) {
-  #image-people {
-    max-width: 100vw;
-  }
-
-  #logo {
-    max-width: 200px
-  }
-
-  #image-cloud {
-    display: none;
-  }
-
-  .menu li {
-    margin: 20px 0;
-    font-size: 14pt;
-  }
-
-  .menu-container.mobile {
-    padding: 0;
-  }
-}
-
-@media (max-width: 400px) {
-  #image-cloud {
-    display: none;
-  }
-
-  .start-button img.strawberry {
-    max-width: 80px !important;
-  }
-
-}
-
-/* mobile with horizontal */
-
-@media (max-height: 600px) {
-  .menu-container {
-    padding-top: 10px;
-    font-size: 20pt;
-  }
-
-  .menu li {
-    margin: 30px 0;
-    font-size: 20pt;
-  }
-}
-
-@media (max-height: 400px) {
-  #image-cloud {
-    max-width: 50vw;
-  }
-
-  #logo {
-    max-width: 230px
-  }
-
-  .menu li {
-    font-size: 15pt;
-  }
-}
-
-.menu a,
-.menu a:hover {
-  position: relative;
-  display: inline-block;
-  margin: 15px 25px;
-  outline: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #436FB5;
-}
-
-.menu a:hover::before,
-.menu a:focus::before {
-  color: #fff;
-  text-shadow: 10px 0 #fff, -10px 0 #fff;
-}
-
-.menu a::before {
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  color: transparent;
-  content: '•';
-  text-shadow: 0 0 transparent;
-  font-size: 0.7em;
-  -webkit-transition: text-shadow 0.3s, color 0.3s;
-  -moz-transition: text-shadow 0.3s, color 0.3s;
-  transition: text-shadow 0.3s, color 0.3s;
-  -webkit-transform: translateX(-50%);
-  -moz-transform: translateX(-50%);
-  transform: translateX(-50%);
-  pointer-events: none;
 }
 
 .loading {
@@ -449,10 +197,6 @@ ul.menu {
 #c-6 {
   left: 40%;
   top: 30%
-}
-
-.home #c-6 {
-  top: 10%
 }
 
 @media (max-width: 1024px) {
