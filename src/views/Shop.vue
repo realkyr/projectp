@@ -27,14 +27,14 @@
         <div class="col-12 col-md-6">
           <div @click="calendarInside" class="calendar-container d-flex justify-content-center">
             <div class="white">View Inside</div>
-            <img :src="require('@/assets/img/Shop/calendar.png')" width="80%">
+            <img src="https://drive.google.com/uc?id=1KxM5nr69898-o4tQbpB_OIC9XF-_ARxN" width="100%">
             <Calendar />
           </div>
         </div>
 
-        <div class="col-12 col-md-5 col-xl-4">
+        <div class="col-12 col-md-4 offset-md-1 col-xl-4">
           <div style="height: 100%" class="d-flex flex-column justify-content-center calendar-info">
-            <h3>Fruity Bloom Calendar 2020</h3>
+            <h4 style="white-space: nowrap;">Fruity Bloom Calendar 2020</h4>
             <p class="text-justify">
               Body Shaming is a story that exists in every phase
               of our lives. Which may cause many people to lack
@@ -107,23 +107,21 @@
           <Pointer />
         </button>
       </div>
-      <Product v-if="view === 'notebook'" />
-      <MProduct product='pen' v-if="view === 'pen'" />
-      <MProduct product='notepad' v-if="view === 'notepad'" />
+      <Product />
+      <MProduct product='notepad' />
+      <MProduct product='pen' />
     </div>
-    <template v-if="view">
-      <div class="row">
-        <div class="col-12">
-          <p class="text-right" style="color: #4997cc; margin-top: 100px; padding: 20px 10px;">
-            Contact<br>Email : ppkhemmud@gmail.com<br>Tel
-            : 0989453593</p>
-        </div>
+    <div class="row">
+      <div class="col-12">
+        <p class="text-right" style="color: #4997cc; margin-top: 100px; padding: 20px 10px;">
+          Contact<br>Email : ppkhemmud@gmail.com<br>Tel
+          : 0989453593</p>
       </div>
-      <div class="text-center font-weight-bold"
-        style="padding: 20px 0; color: #4997cc; margin-top: 50px; background-color: #b7d8ee;">
-        <h3>Friuty Bloom</h3>
-      </div>
-    </template>
+    </div>
+    <div class="text-center font-weight-bold"
+      style="padding: 10px 0; color: #4997cc; margin-top: 50px; background-color: #b7d8ee;">
+      <h3>Friuty Bloom</h3>
+    </div>
   </div>
 </template>
 
@@ -166,8 +164,8 @@ export default {
       this.view = name
       this.$nextTick(() => {
         if (this.view) {
-          console.log(document.querySelector('#third'))
-          document.querySelector('#third').scrollIntoView()
+          console.log(document.querySelector('#' + name))
+          document.querySelector('#' + name).scrollIntoView()
         }
       })
     },
@@ -188,14 +186,14 @@ export default {
 }
 
 .calendar-container .white{
-  left: 32%;
-  width: 20% !important;
+  left: 28%;
+  width: 40% !important;
   height: 20% !important;
 }
 
 .calendar-container:hover .white,
 .calendar-container:focus .white {
-  transform: translateY(0);
+  transform: translateY(-50px);
 }
 
 .cls-1 {
@@ -294,12 +292,13 @@ h4, h5, h6 {
 p {
   font-family: 'myriad-pro', sans-serif;
   color: #5AB0E0;
-  font-size: 1.5em;
+  font-size: 1em;
 }
 
+/*
 .modal-open .nav img {
   padding-right: 17px;
-}
+} */
 
 @media screen and (max-width: 1024px) {
   .modal-open .nav img {
@@ -338,12 +337,12 @@ p {
 }
 
 .product img {
-  height: 25vh !important;
+  height: 35vh !important;
 }
 
 @media screen and (max-width: 1024px) {
   .product img {
-    height: 20vh !important;
+    height: 30vh !important;
   }
 }
 
@@ -360,7 +359,7 @@ p {
 }
 
 .shopnow {
-  margin-top: 15%;
+  margin-top: 10%;
   margin-bottom: 20px;
   z-index: 1;
 }
@@ -382,7 +381,7 @@ p {
 }
 
 #first {
-  margin-top: 20%;
+  margin-top: 18%;
 }
 
 #second {

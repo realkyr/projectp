@@ -1,6 +1,6 @@
 <template>
   <div style="display: content;">
-    <div class="row" id="third">
+    <div class="row third" :id="product">
       <div class="d-flex align-items-center justify-content-center col-12 col-md-6">
         <div class="row justify-content-center">
           <div class="col-10">
@@ -65,7 +65,7 @@
           <br>
 
           <h3>{{product === 'pen'? 30 : 65}} ฿</h3>
-          <button @click="addToCart(item)" class="shop">Add To Cart</button>
+          <button @click="confirm()" class="shop">Add To Cart</button>
         </div>
       </div>
     </div>
@@ -73,7 +73,7 @@
     <div class="text-center">
       <div class="row d-flex justify-content-center align-items-center">
           <div class="seasonSelector-nav prev">
-            <a href="#seasonSelector" role="button" data-slide="prev">
+            <a :href="`#${product}-selector`" role="button" data-slide="prev">
               <div class="carousel-nav-icon">
                 <ArrowLeft />
               </div>
@@ -81,7 +81,7 @@
           </div>
           <div class="album col-11">
             <!--Start carousel-->
-            <div id="seasonSelector" class="carousel slide" data-ride="carousel">
+            <div :id="`${product}-selector`" class="carousel slide selector" data-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                       <div class="row">
@@ -120,7 +120,7 @@
             <!--End carousel-->
           </div>
           <div class="seasonSelector-nav next">
-            <a href="#seasonSelector" data-slide="next">
+            <a :href="`#${product}-selector`" data-slide="next">
               <div class="carousel-nav-icon">
                   <ArrowRight />
               </div>
@@ -128,13 +128,14 @@
           </div>
       </div>
     </div>
+    <Confirm :product="product" :item="item" />
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 import ArrowLeft from '@/components/icons/arrow-left.vue'
 import ArrowRight from '@/components/icons/arrow-right.vue'
+import Confirm from '@/components/Shop/Confirm.vue'
 export default {
   props: {
     product: {
@@ -144,7 +145,8 @@ export default {
   },
   components: {
     ArrowLeft,
-    ArrowRight
+    ArrowRight,
+    Confirm
   },
   data () {
     return {
@@ -161,7 +163,11 @@ export default {
     select (month) {
       this.selected = month
     },
-    ...mapMutations(['addToCart'])
+    confirm () {
+      // eslint-disable-next-line no-undef
+      $(`#${this.product}-modal`).modal()
+    }
+    // ...mapMutations(['addToCart'])
   },
   computed: {
     item () {
@@ -214,7 +220,7 @@ export default {
 </style>
 
 <style scoped>
-.album #seasonSelector{
+.album .selector{
   background-color: #D3DDE2;
 }
 
@@ -495,8 +501,8 @@ p {
   padding: 20px;
 }
 
-#third {
-  margin: 15% 0 200px 0;
+.third {
+  margin: 200px 0 100px 0;
 }
 
 img {

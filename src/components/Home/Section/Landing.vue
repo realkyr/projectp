@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="landing-container">
     <div id="landing" class="landing"></div>
   </div>
 </template>
@@ -9,6 +9,14 @@
 import animation from '../../../../public/Animation/LandingPage/data.json'
 
 export default {
+  data () {
+    return {
+      screen: {
+        height: window.innerHeight,
+        width: window.innerWidth
+      }
+    }
+  },
   mounted () {
     // eslint-disable-next-line no-undef
     bodymovin.loadAnimation({
@@ -23,10 +31,13 @@ export default {
 </script>
 
 <style scoped>
-.landing {
+.landing-container{
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.landing {
+  width: 100vw;
 }
 </style>

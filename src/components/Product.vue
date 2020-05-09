@@ -1,6 +1,6 @@
 <template>
   <div style="display: content;">
-    <div class="row" id="third">
+    <div class="third row" id="notebook">
       <div class="d-flex align-items-center justify-content-center col-12 col-md-6">
         <div class="row justify-content-center">
           <div  class="col-1 viewSelector-nav prev">
@@ -134,17 +134,20 @@
           </div>
       </div>
     </div>
+    <Confirm product="notebook" :item="item" />
   </div>
 </template>
 
 <script>
+import Confirm from '@/components/Shop/Confirm.vue'
 import ArrowLeft from '@/components/icons/arrow-left.vue'
 import ArrowRight from '@/components/icons/arrow-right.vue'
 import { mapMutations } from 'vuex'
 export default {
   components: {
     ArrowLeft,
-    ArrowRight
+    ArrowRight,
+    Confirm
   },
   data () {
     return {
@@ -154,6 +157,16 @@ export default {
         require('@/assets/img/Shop/notebook/clear spring 03.jpg')
       ],
       selected: 'spring',
+      item: {
+        id: 'notepad-spring',
+        detail: {
+          amount: 1,
+          product: 'Notebook',
+          striped: 'Clear Spring',
+          image: require('@/assets/img/Shop/notebook/clear spring 01.jpg'),
+          price: 120
+        }
+      },
       notebook: {
         spring: [
           require('@/assets/img/Shop/notebook/clear spring 01.jpg'),
@@ -190,16 +203,18 @@ export default {
       if (this.selected === 'summer') season = 'Fresh Summer'
       if (this.selected === 'autumn') season = 'Warm Autumn'
       if (this.selected === 'winter') season = 'Frosty Winter'
-      this.addToCart({
+      this.item = {
         id: 'notepad-' + this.selected,
         detail: {
           amount: 1,
-          product: 'Notepad',
+          product: 'Notebook',
           striped: season,
           image: this.notebook[this.selected][0],
           price: 120
         }
-      })
+      }
+      // eslint-disable-next-line no-undef
+      $('#notebook-modal').modal()
     }
   }
 }
@@ -339,8 +354,8 @@ p {
   padding: 20px;
 }
 
-#third {
-  margin: 15% 0 200px 0;
+.third {
+  margin: 200px 0 100px 0;
 }
 
 img {
