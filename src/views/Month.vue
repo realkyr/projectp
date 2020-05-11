@@ -39,8 +39,6 @@ export default {
   mounted () {
     this.setAnimation('jan')
     setTimeout(() => {
-      document.getElementById('jan').classList.add('appear')
-      document.getElementById('jan').classList.remove('init')
       this.clickable = true
     }, 5000)
   },
@@ -54,6 +52,7 @@ export default {
       if (this.contentIndex === 1) {
         const first = document.querySelector('#' + this.monthList[this.monthIndex])
         const sec = document.querySelector('#' + this.monthList[this.monthIndex] + '2')
+        first.classList.remove('init')
         first.classList.remove('appear')
         first.classList.add('leave')
         sec.classList.add('appear')
@@ -155,8 +154,9 @@ export default {
 }
 
 .month-elements.init {
-  /* -webkit-animation: appearing 5s ease-out;
-  animation: appearing 5s ease-out; */
+  transform: scale(1);
+  -webkit-animation: appearing 5s ease-out backwards;
+  animation: appearing 5s ease-out backwards;
 }
 
 @keyframes appearing {

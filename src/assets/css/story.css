@@ -5,13 +5,13 @@
 .three-dot.left {
   left: 0;
   top: 42%;
-  animation: fade 5s ease-out 2s backwards;
+  animation: fade 5s ease-out 1s backwards;
 }
 
 .three-dot.right {
   right: 0;
   top: 42%;
-  animation: fade 5s ease-out 2s backwards;
+  animation: fade 5s ease-out 1s backwards;
 }
 
 .three-dot .dot {
