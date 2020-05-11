@@ -65,6 +65,7 @@ export default {
         const sec = this.$refs[this.monthList[this.monthIndex - 1] + '2']
         sec.classList.remove('appear')
         sec.classList.add('leave')
+        await this.wait(1500)
         this.$nextTick(() => {
           this.setAnimation(this.monthList[this.monthIndex])
           this.$refs.stcon.style.background = this.color[this.monthIndex]
@@ -72,7 +73,6 @@ export default {
           console.log('this is after create animation', first)
           first.classList.add('appear')
         })
-        await this.wait(1500)
         this.elementControl[this.monthList[this.monthIndex - 1]] = false
       }
 
@@ -92,7 +92,10 @@ export default {
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        animationData: data
+        animationData: data,
+        rendererSettings: {
+          progressiveLoad: true
+        }
       })
       data = require(`@/assets/Animation/Story/${month}_2.json`)
       // eslint-disable-next-line no-undef
@@ -101,7 +104,10 @@ export default {
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        animationData: data
+        animationData: data,
+        rendererSettings: {
+          progressiveLoad: true
+        }
       })
     },
     async wait (ms) {
