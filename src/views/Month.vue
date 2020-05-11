@@ -3,8 +3,8 @@
     <div @click="next" class="click-aria"></div>
     <div class="month-elements first init" v-if="elementControl.jan" ref="jan"></div>
     <div class="month-elements second" v-if="elementControl.jan" ref="jan2"></div>
-    <div class="month-elements first" v-if="elementControl.feb" ref="feb"></div>
-    <div class="month-elements second" v-if="elementControl.feb" ref="feb2"></div>
+    <div class="month-elements first" v-if="elementControl.feb ? elementControl.feb : true" ref="feb"></div>
+    <div class="month-elements second" v-if="elementControl.feb ? elementControl.feb : true" ref="feb2"></div>
     <div :class="['three-dot', 'left', monthList[monthIndex]]">
       <div class="dot"></div>
       <div class="dot"></div>
@@ -19,13 +19,14 @@
 </template>
 
 <script>
+import lottie from 'lottie-web'
 import '@/assets/css/story.css'
 
 export default {
   data () {
     return {
       clickable: false,
-      monthList: ['jan', 'feb', 'mar'],
+      monthList: ['jan', 'feb'],
       monthIndex: 0,
       contentIndex: 0,
       color: [
@@ -36,12 +37,15 @@ export default {
       ],
       elementControl: {
         jan: true
-      }
+      },
+      anim: {}
     }
   },
   mounted () {
-    this.setAnimation('jan')
-    this.setAnimation('feb')
+    for (const monthEl of this.monthList) {
+      this.setAnimation(monthEl)
+      if (monthEl !== 'jan') this.elementControl[monthEl] = false
+    }
     setTimeout(() => {
       this.clickable = true
     }, 5000)
@@ -65,14 +69,10 @@ export default {
         const sec = this.$refs[this.monthList[this.monthIndex - 1] + '2']
         sec.classList.remove('appear')
         sec.classList.add('leave')
+        this.$refs.stcon.style.background = this.color[this.monthIndex]
+        const first = this.$refs[this.monthList[this.monthIndex]]
+        first.classList.add('appear')
         await this.wait(1500)
-        this.$nextTick(() => {
-          this.setAnimation(this.monthList[this.monthIndex])
-          this.$refs.stcon.style.background = this.color[this.monthIndex]
-          const first = this.$refs[this.monthList[this.monthIndex]]
-          console.log('this is after create animation', first)
-          first.classList.add('appear')
-        })
         this.elementControl[this.monthList[this.monthIndex - 1]] = false
       }
 
@@ -83,32 +83,25 @@ export default {
       this.clickable = true
     },
     setAnimation (month) {
-      console.log(month)
       let data = require(`@/assets/Animation/Story/${month}.json`)
-      console.log(this.$refs[month])
-      // eslint-disable-next-line no-undef
-      bodymovin.loadAnimation({
+      console.log(month)
+      this.anim[month] = lottie.loadAnimation({
         container: this.$refs[month],
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        animationData: data,
-        rendererSettings: {
-          progressiveLoad: true
-        }
+        animationData: data
       })
       data = require(`@/assets/Animation/Story/${month}_2.json`)
-      // eslint-disable-next-line no-undef
-      bodymovin.loadAnimation({
+      this.anim[month + '2'] = lottie.loadAnimation({
         container: this.$refs[month + '2'],
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        animationData: data,
-        rendererSettings: {
-          progressiveLoad: true
-        }
+        animationData: data
       })
+      this.anim[month].addEventListener('DOMLoaded', () => { console.log('complete') })
+      this.anim[month + '2'].addEventListener('DOMLoaded', () => { console.log('complete') })
     },
     async wait (ms) {
       return new Promise(resolve => {
