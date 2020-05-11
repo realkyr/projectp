@@ -1,10 +1,10 @@
 <template>
-  <div class="story-container" ref="stcon">
+  <div class="story-container" ref="stcon" style="background: #F8B978;">
     <div @click="next" class="click-aria"></div>
-    <div class="month-elements first init" v-if="monthIndex < 3" id="jan"></div>
-    <div class="month-elements second" v-if="monthIndex < 3" id="jan2"></div>
-    <div class="month-elements first" v-if="monthIndex < 4" id="feb"></div>
-    <div class="month-elements second" v-if="monthIndex < 4" id="feb2"></div>
+    <div class="month-elements first init" v-if="elementControl.jan" ref="jan"></div>
+    <div class="month-elements second" v-if="elementControl.jan" ref="jan2"></div>
+    <div class="month-elements first" v-if="elementControl.feb" ref="feb"></div>
+    <div class="month-elements second" v-if="elementControl.feb" ref="feb2"></div>
     <div :class="['three-dot', 'left', monthList[monthIndex]]">
       <div class="dot"></div>
       <div class="dot"></div>
@@ -33,11 +33,15 @@ export default {
         '#EC6B6A', '#7E6EAF', '#F7BF5D', '#69AF71',
         '#F7EBAE', '#F8D58E', '#99C989', '#F8D0DA',
         '#AEE0F4'
-      ]
+      ],
+      elementControl: {
+        jan: true
+      }
     }
   },
   mounted () {
     this.setAnimation('jan')
+    this.setAnimation('feb')
     setTimeout(() => {
       this.clickable = true
     }, 5000)
@@ -50,20 +54,26 @@ export default {
       if (this.contentIndex === 0) this.monthIndex += 1
 
       if (this.contentIndex === 1) {
-        const first = document.querySelector('#' + this.monthList[this.monthIndex])
-        const sec = document.querySelector('#' + this.monthList[this.monthIndex] + '2')
+        const first = this.$refs[this.monthList[this.monthIndex]]
+        const sec = this.$refs[this.monthList[this.monthIndex] + '2']
         first.classList.remove('init')
         first.classList.remove('appear')
         first.classList.add('leave')
         sec.classList.add('appear')
       } else {
-        const sec = document.querySelector('#' + this.monthList[this.monthIndex - 1] + '2')
+        this.elementControl[this.monthList[this.monthIndex]] = true
+        const sec = this.$refs[this.monthList[this.monthIndex - 1] + '2']
         sec.classList.remove('appear')
         sec.classList.add('leave')
-        this.setAnimation(this.monthList[this.monthIndex])
-        this.$refs.stcon.style.background = this.color[this.monthIndex]
-        const fcontent = document.querySelector('#' + this.monthList[this.monthIndex])
-        fcontent.classList.add('appear')
+        this.$nextTick(() => {
+          this.setAnimation(this.monthList[this.monthIndex])
+          this.$refs.stcon.style.background = this.color[this.monthIndex]
+          const first = this.$refs[this.monthList[this.monthIndex]]
+          console.log('this is after create animation', first)
+          first.classList.add('appear')
+        })
+        await this.wait(1500)
+        this.elementControl[this.monthList[this.monthIndex - 1]] = false
       }
 
       // if (this.monthIndex === 1 && this.contentIndex === 1) {
@@ -75,9 +85,10 @@ export default {
     setAnimation (month) {
       console.log(month)
       let data = require(`@/assets/Animation/Story/${month}.json`)
+      console.log(this.$refs[month])
       // eslint-disable-next-line no-undef
       bodymovin.loadAnimation({
-        container: document.getElementById(month),
+        container: this.$refs[month],
         renderer: 'svg',
         loop: true,
         autoplay: true,
@@ -86,7 +97,7 @@ export default {
       data = require(`@/assets/Animation/Story/${month}_2.json`)
       // eslint-disable-next-line no-undef
       bodymovin.loadAnimation({
-        container: document.getElementById(`${month}2`),
+        container: this.$refs[month + '2'],
         renderer: 'svg',
         loop: true,
         autoplay: true,
@@ -210,9 +221,8 @@ export default {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: #F8B978;
-  -webkit-transition: all 2s ease;
-  transition: all 2s ease;
+  -webkit-transition: background 2s ease;
+  transition: background 2s ease;
 }
 
 </style>
