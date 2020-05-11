@@ -211,8 +211,8 @@ export default {
   align-items: center;
   overflow: hidden;
   background: #F8B978;
-  -webkit-transition: background-color 2s ease;
-  transition: background-color 2s ease;
+  -webkit-transition: all 2s ease;
+  transition: all 2s ease;
 }
 
 </style>
