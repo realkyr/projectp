@@ -1,10 +1,11 @@
 <template>
   <div class="story-container" ref="stcon" style="background: #F8B978;">
+    <h1 v-if="loaded < 4">Loading</h1>
     <div @click="next" class="click-aria"></div>
-    <div class="month-elements first init" v-if="elementControl.jan" ref="jan"></div>
-    <div class="month-elements second" v-if="elementControl.jan" ref="jan2"></div>
-    <div class="month-elements first" v-if="elementControl.feb ? elementControl.feb : true" ref="feb"></div>
-    <div class="month-elements second" v-if="elementControl.feb ? elementControl.feb : true" ref="feb2"></div>
+    <div class="month-elements first init" ref="jan"></div>
+    <div class="month-elements second" ref="jan2"></div>
+    <div class="month-elements first" ref="feb"></div>
+    <div class="month-elements second" ref="feb2"></div>
     <div :class="['three-dot', 'left', monthList[monthIndex]]">
       <div class="dot"></div>
       <div class="dot"></div>
@@ -27,6 +28,7 @@ export default {
     return {
       clickable: false,
       monthList: ['jan', 'feb'],
+      loaded: 0,
       monthIndex: 0,
       contentIndex: 0,
       color: [
@@ -36,7 +38,8 @@ export default {
         '#AEE0F4'
       ],
       elementControl: {
-        jan: true
+        jan: true,
+        feb: true
       },
       anim: {}
     }
@@ -44,20 +47,21 @@ export default {
   mounted () {
     for (const monthEl of this.monthList) {
       this.setAnimation(monthEl)
-      if (monthEl !== 'jan') this.elementControl[monthEl] = false
     }
-    setTimeout(() => {
-      this.clickable = true
-    }, 5000)
   },
   methods: {
     async next () {
       if (!this.clickable) return
+      let id = ''
+      let idstop = ''
       this.clickable = false
       this.contentIndex = this.contentIndex === 1 ? 0 : 1
       if (this.contentIndex === 0) this.monthIndex += 1
 
       if (this.contentIndex === 1) {
+        idstop = this.monthList[this.monthIndex]
+        id = this.monthList[this.monthIndex] + '2'
+        this.anim[id].play()
         const first = this.$refs[this.monthList[this.monthIndex]]
         const sec = this.$refs[this.monthList[this.monthIndex] + '2']
         first.classList.remove('init')
@@ -65,6 +69,9 @@ export default {
         first.classList.add('leave')
         sec.classList.add('appear')
       } else {
+        idstop = this.monthList[this.monthIndex - 1] + '2'
+        id = this.monthList[this.monthIndex]
+        this.anim[id].play()
         this.elementControl[this.monthList[this.monthIndex]] = true
         const sec = this.$refs[this.monthList[this.monthIndex - 1] + '2']
         sec.classList.remove('appear')
@@ -79,10 +86,12 @@ export default {
       // if (this.monthIndex === 1 && this.contentIndex === 1) {
       //   this.returnToJan()
       // }
-      await this.wait(1500)
+      await this.wait(1200)
+      this.anim[idstop].stop()
       this.clickable = true
     },
     setAnimation (month) {
+      lottie.setQuality(2)
       let data = require(`@/assets/Animation/Story/${month}.json`)
       console.log(month)
       this.anim[month] = lottie.loadAnimation({
@@ -100,8 +109,15 @@ export default {
         autoplay: true,
         animationData: data
       })
-      this.anim[month].addEventListener('DOMLoaded', () => { console.log('complete') })
-      this.anim[month + '2'].addEventListener('DOMLoaded', () => { console.log('complete') })
+      this.anim[month].addEventListener('DOMLoaded', () => {
+        this.loaded += 1
+        console.log('complete')
+        this.anim[month].stop()
+      })
+      this.anim[month + '2'].addEventListener('DOMLoaded', () => {
+        this.loaded += 1; console.log('complete')
+        this.anim[month + '2'].stop()
+      })
     },
     async wait (ms) {
       return new Promise(resolve => {
@@ -130,6 +146,15 @@ export default {
         await this.wait(500)
         first.style.transition = ''
       }, 3000)
+    }
+  },
+  watch: {
+    loaded (newVal, oldVal) {
+      console.log(newVal)
+      if (newVal >= 4) {
+        this.clickable = true
+        this.anim.jan.play()
+      }
     }
   }
 }
@@ -210,6 +235,7 @@ export default {
   transition: all 1.5s ease-in-out;
   opacity: 0;
   z-index: 70;
+  will-change: transform;
 }
 
 .story-container {
