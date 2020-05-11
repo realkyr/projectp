@@ -1,6 +1,6 @@
 <template>
   <div id="story-big-con" style="height: 100vh; width: 100vw; overflow: hidden; background: #AEE0F4;">
-    <transition name="fade" appear>
+    <transition name="fadeonly">
       <div id="start-page" v-if="finish && !start" style="height: 100vh;" class="story-container d-flex flex-column justify-content-center align-items-center">
         <div class="band-container" style="position: relative;">
           <img class="start-story-branding" :src="require('@/assets/img/Story/startstory-01.png')" alt="">
@@ -45,7 +45,6 @@
 </style>
 
 <script>
-import '@/assets/css/story.css'
 import '@/assets/css/animation.css'
 import HomeIcon from '@/components/icons/Home.vue'
 import Month from '@/views/Month.vue'
@@ -71,9 +70,9 @@ export default {
   },
   methods: {
     startStory () {
-      this.start = true
       document.querySelector('#story-big-con').style.background = '#F8B978'
       document.querySelector('#start-page').classList.add('starting')
+      setTimeout(() => { this.start = true }, 5000)
     }
   }
 }
@@ -82,6 +81,10 @@ export default {
 <style scoped>
 html, body {
   overflow: hidden;
+}
+
+#story-big-con {
+  transition: background-color 5s ease;
 }
 
 .start-button {
@@ -128,7 +131,7 @@ html, body {
 
 .starting#start-page {
   background: #F8B978;
-  transition: all 10s;
+  transition: all 5s;
 }
 
 .starting .start-button{
@@ -195,7 +198,4 @@ h4, h5, h6 {
   }
 }
 
-.story-container {
-  background: #AEE0F4;
-}
 </style>

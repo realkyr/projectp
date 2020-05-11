@@ -6,6 +6,18 @@
   opacity: 0;
 }
 
+.fadeonly-enter-active {
+  transition: opacity .5s;
+}
+
+.fadeonly-leave-active {
+  transition: none !important;
+}
+
+.fadeonly-enter {
+  opacity: 0;
+}
+
 .people-enter {
   opacity: 0;
   transform: translateX(20px);

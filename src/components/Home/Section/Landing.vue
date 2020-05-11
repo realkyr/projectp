@@ -6,7 +6,7 @@
 
 <script>
 // eslint-disable-next-line import/no-absolute-path
-import animation from '../../../../public/Animation/LandingPage/data.json'
+import animation from '@/assets/Animation/LandingPage/data.json'
 
 export default {
   data () {
