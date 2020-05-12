@@ -56,7 +56,7 @@ export default {
 }
 
 #about-section {
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   position: relative;
   background-position: center top;
   -webkit-background-size: cover;

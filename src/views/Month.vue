@@ -68,6 +68,13 @@ export default {
     }
   },
   async mounted () {
+    const vh = window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+    window.addEventListener('resize', () => {
+      // We execute the same script as before
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+    })
     // for (const monthEl of this.monthList) {
     //   this.setAnimation(monthEl)
     // }
@@ -110,7 +117,7 @@ export default {
         this.elementControl[this.monthList[this.monthIndex - 1]] = false
       }
 
-      // if (this.monthIndex === 1 && this.contentIndex === 1) {
+      // if (this.monthIndex === 2 && this.contentIndex === 0) {
       //   this.returnToJan()
       // }
       this.anim[id].play()
@@ -153,16 +160,22 @@ export default {
       })
     },
     returnToJan () {
+      this.$refs[this.monthList[this.monthIndex]].classList.remove('appear')
       this.returning = setInterval(async () => {
         this.monthIndex -= 1
-        console.log('#' + this.monthList[this.monthIndex] + '2')
-        const sec = document.querySelector('#' + this.monthList[this.monthIndex] + '2')
+        let month = this.monthList[this.monthIndex] + '2'
+        const sec = this.$refs[month]
+        this.setAnimation(month)
         sec.classList.remove('leave')
         sec.style.transition = 'all .5s ease-in-out'
         this.$refs.stcon.style.background = this.color[this.monthIndex]
         await this.wait(400)
+        this.anim[month].destroy()
         sec.style.transition = ''
-        const first = document.querySelector('#' + this.monthList[this.monthIndex])
+
+        month = this.monthList[this.monthIndex]
+        const first = this.$refs[month]
+        this.setAnimation(month)
         if (this.monthList[this.monthIndex] === 'jan') {
           first.classList.remove('leave')
           first.classList.add('appear')
@@ -172,6 +185,7 @@ export default {
         first.classList.remove('leave')
         first.style.transition = 'all .5s ease-in-out'
         await this.wait(500)
+        this.anim[month].destroy()
         first.style.transition = ''
       }, 3000)
     }
@@ -269,7 +283,7 @@ export default {
 .story-container {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   display: flex;
   justify-content: center;
   align-items: center;

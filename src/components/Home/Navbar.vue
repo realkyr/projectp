@@ -108,13 +108,14 @@ export default {
 .menu {
   list-style: none;
   align-self: center;
+  text-align: center;
   margin: 0;
   padding: 0;
 }
 
 .menu li {
   display: inline;
-  margin-right: 30px;
+  margin: 0 15px;
   font-family: 'YoungSerif';
   color: #436FB5;
 }
