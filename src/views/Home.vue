@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100vh; background-color: #cbecfd; overflow: hidden;">
+  <div>
     <transition name="fade" appear>
       <div v-if="isLoadFinish" class="home">
         <!-- <img id="image-cloud" :src="require('../assets/cloud-01.png')" />
@@ -38,7 +38,7 @@
         </div> -->
         <LandingPage />
       </div>
-      <h1 class="loading" v-else>
+      <div class="loading" v-else>
         <video v-if="start" ref="opening" :width="screen.width" preload autoplay>
           <source :src="require('@/assets/videos/Opening.mp4')" type="video/mp4">
           Your browser does not support the video tag.
@@ -53,7 +53,7 @@
             <img class="border-text" :src="require('@/assets/textborder.png')" >
           </div>
         </div>
-      </h1>
+      </div>
     </transition>
   </div>
 </template>
@@ -126,8 +126,10 @@ body {
 .loading {
   display: flex;
   height: 100vh;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
+  background: #cbecfd;
 }
 
 .pre-opening {

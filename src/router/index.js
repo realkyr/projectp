@@ -34,7 +34,16 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
+  // scrollBehavior (to, from, savedPosition) {
+  //   return { x: 0, y: 0 }
+  // },
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  window.scrollTo(0, 0)
+  // More code ...
+  next()
 })
 
 export default router

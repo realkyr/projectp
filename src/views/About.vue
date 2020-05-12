@@ -91,6 +91,9 @@ export default {
       }
     }
   },
+  destroyed () {
+    window.removeEventListener('scroll', this.checkVisibility)
+  },
   methods: {
     checkVisibility () {
       let step = 400

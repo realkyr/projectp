@@ -4,7 +4,7 @@
     data-name="Layer 1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 67.86 65.41"
-    width="45"
+    :width="width"
   >
     <path
       class="cls-1"
@@ -13,3 +13,14 @@
     />
   </svg>
 </template>
+
+<script>
+export default {
+  props: {
+    width: {
+      type: Number,
+      default: 45
+    }
+  }
+}
+</script>

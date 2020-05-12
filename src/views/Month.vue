@@ -1,11 +1,31 @@
 <template>
   <div class="story-container" ref="stcon" style="background: #F8B978;">
-    <h1 v-if="loaded < 4">Loading</h1>
+    <!-- <h1 v-if="loaded < 12">Loading</h1> -->
     <div @click="next" class="click-aria"></div>
     <div class="month-elements first init" ref="jan"></div>
     <div class="month-elements second" ref="jan2"></div>
     <div class="month-elements first" ref="feb"></div>
     <div class="month-elements second" ref="feb2"></div>
+    <div class="month-elements first" ref="mar"></div>
+    <div class="month-elements second" ref="mar2"></div>
+    <div class="month-elements first" ref="apr"></div>
+    <div class="month-elements second" ref="apr2"></div>
+    <div class="month-elements first" ref="may"></div>
+    <div class="month-elements second" ref="may2"></div>
+    <div class="month-elements first" ref="jun"></div>
+    <div class="month-elements second" ref="jun2"></div>
+    <div class="month-elements first" ref="jul"></div>
+    <div class="month-elements second" ref="jul2"></div>
+    <div class="month-elements first" ref="aug"></div>
+    <div class="month-elements second" ref="aug2"></div>
+    <div class="month-elements first" ref="sep"></div>
+    <div class="month-elements second" ref="sep2"></div>
+    <div class="month-elements first" ref="oct"></div>
+    <div class="month-elements second" ref="oct2"></div>
+    <div class="month-elements first" ref="nov"></div>
+    <div class="month-elements second" ref="nov2"></div>
+    <div class="month-elements first" ref="dec"></div>
+    <div class="month-elements second" ref="dec2"></div>
     <div :class="['three-dot', 'left', monthList[monthIndex]]">
       <div class="dot"></div>
       <div class="dot"></div>
@@ -27,7 +47,10 @@ export default {
   data () {
     return {
       clickable: false,
-      monthList: ['jan', 'feb'],
+      monthList: [
+        'jan', 'feb', 'mar', 'apr', 'may', 'jun',
+        'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
+      ],
       loaded: 0,
       monthIndex: 0,
       contentIndex: 0,
@@ -44,10 +67,14 @@ export default {
       anim: {}
     }
   },
-  mounted () {
-    for (const monthEl of this.monthList) {
-      this.setAnimation(monthEl)
-    }
+  async mounted () {
+    // for (const monthEl of this.monthList) {
+    //   this.setAnimation(monthEl)
+    // }
+    this.setAnimation('jan')
+    this.anim.jan.play()
+    await this.wait(5500)
+    this.clickable = true
   },
   methods: {
     async next () {
@@ -61,7 +88,7 @@ export default {
       if (this.contentIndex === 1) {
         idstop = this.monthList[this.monthIndex]
         id = this.monthList[this.monthIndex] + '2'
-        this.anim[id].play()
+        this.setAnimation(id)
         const first = this.$refs[this.monthList[this.monthIndex]]
         const sec = this.$refs[this.monthList[this.monthIndex] + '2']
         first.classList.remove('init')
@@ -71,7 +98,7 @@ export default {
       } else {
         idstop = this.monthList[this.monthIndex - 1] + '2'
         id = this.monthList[this.monthIndex]
-        this.anim[id].play()
+        this.setAnimation(id)
         this.elementControl[this.monthList[this.monthIndex]] = true
         const sec = this.$refs[this.monthList[this.monthIndex - 1] + '2']
         sec.classList.remove('appear')
@@ -86,38 +113,39 @@ export default {
       // if (this.monthIndex === 1 && this.contentIndex === 1) {
       //   this.returnToJan()
       // }
+      this.anim[id].play()
       await this.wait(1200)
-      this.anim[idstop].stop()
+      this.anim[idstop].destroy()
       this.clickable = true
     },
     setAnimation (month) {
-      lottie.setQuality(2)
-      let data = require(`@/assets/Animation/Story/${month}.json`)
+      lottie.setQuality('low')
+      const data = require(`@/assets/Animation/Story/${month}.json`)
       console.log(month)
       this.anim[month] = lottie.loadAnimation({
         container: this.$refs[month],
         renderer: 'svg',
         loop: true,
-        autoplay: true,
+        autoplay: false,
         animationData: data
       })
-      data = require(`@/assets/Animation/Story/${month}_2.json`)
-      this.anim[month + '2'] = lottie.loadAnimation({
-        container: this.$refs[month + '2'],
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        animationData: data
-      })
+      // data = require(`@/assets/Animation/Story/${month}_2.json`)
+      // this.anim[month + '2'] = lottie.loadAnimation({
+      //   container: this.$refs[month + '2'],
+      //   renderer: 'svg',
+      //   loop: true,
+      //   autoplay: true,
+      //   animationData: data
+      // })
       this.anim[month].addEventListener('DOMLoaded', () => {
-        this.loaded += 1
+        // this.loaded += 1
         console.log('complete')
-        this.anim[month].stop()
+        // if (month !== 'jan') this.anim[month].stop()
       })
-      this.anim[month + '2'].addEventListener('DOMLoaded', () => {
-        this.loaded += 1; console.log('complete')
-        this.anim[month + '2'].stop()
-      })
+      // this.anim[month + '2'].addEventListener('DOMLoaded', () => {
+      //   this.loaded += 1; console.log('complete')
+      //   this.anim[month + '2'].stop()
+      // })
     },
     async wait (ms) {
       return new Promise(resolve => {
@@ -147,16 +175,16 @@ export default {
         first.style.transition = ''
       }, 3000)
     }
-  },
-  watch: {
-    loaded (newVal, oldVal) {
-      console.log(newVal)
-      if (newVal >= 4) {
-        this.clickable = true
-        this.anim.jan.play()
-      }
-    }
   }
+  // watch: {
+  //   loaded (newVal, oldVal) {
+  //     console.log(newVal)
+  //     if (newVal >= 12) {
+  //       this.clickable = true
+  //       this.anim.jan.play()
+  //     }
+  //   }
+  // }
 }
 </script>
 

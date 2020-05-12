@@ -1,6 +1,7 @@
 @import "../Fonts/font.css";
 
 html {
+  scroll-behavior: initial;
   overflow-y: scroll;
 }
 
