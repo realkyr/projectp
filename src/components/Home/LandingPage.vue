@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="-webkit-overflow-scrolling: touch;">
     <Navbar @navto="nextSection" :section="section" />
     <Landing  @nextpage="nextSection" />
     <About @nextpage="nextSection" />

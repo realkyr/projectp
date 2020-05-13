@@ -108,11 +108,24 @@ export default {
         this.$store.state.isLoadFinish = true
       }, 12000)
     }
+  },
+  mounted () {
+    const vh = window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+    window.addEventListener('resize', () => {
+      // We execute the same script as before
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+    })
   }
 }
 </script>
 
 <style scoped>
+.home {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
 body {
   background-color: #cbecfd;
 }
@@ -125,7 +138,7 @@ body {
 
 .loading {
   display: flex;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
   align-items: center;
   justify-content: center;
