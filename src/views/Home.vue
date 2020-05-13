@@ -123,7 +123,6 @@ export default {
 
 <style scoped>
 .home {
-  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
 body {

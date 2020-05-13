@@ -1,5 +1,5 @@
 <template>
-  <div style="-webkit-overflow-scrolling: touch;">
+  <div class="landing-page-container" >
     <Navbar @navto="nextSection" :section="section" />
     <Landing  @nextpage="nextSection" />
     <About @nextpage="nextSection" />
@@ -73,18 +73,27 @@ export default {
       // We execute the same script as before
       const vh = window.innerHeight * 0.01
       document.documentElement.style.setProperty('--vh', `${vh}px`)
+      this.nextSection(this.section, true)
     })
     this.disableScroll()
   },
   destroyed () {
     this.enableScroll()
+    window.removeEventListener('resize', () => {
+      // We execute the same script as before
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+      this.nextSection(this.section, true)
+    })
   },
   methods: {
-    nextSection (e) {
+    nextSection (e, resize = false) {
       if (!this.scrollable) return
-      document.querySelector('#home-navbar').style.background = ''
-      if (e === 2) {
-        document.querySelector('#home-navbar').style.background = this.$refs.homeStory.navbg[this.$refs.homeStory.month]
+      if (!resize) {
+        document.querySelector('#home-navbar').style.background = ''
+        if (e === 2) {
+          document.querySelector('#home-navbar').style.background = this.$refs.homeStory.navbg[this.$refs.homeStory.month]
+        }
       }
       console.log(e)
       this.section = e
@@ -150,6 +159,11 @@ export default {
 </script>
 
 <style scoped>
+.landing-page-container {
+  overflow: hidden;
+  height: calc(var(--vh, 1vh) * 100);
+  -webkit-overflow-scrolling: touch;
+}
 .section-indicator {
   position: fixed;
   right: 20px;

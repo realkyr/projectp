@@ -17,7 +17,7 @@
 
     <div @click="prevMonth()" class="left-circle story-circle"></div>
     <div @click="nextMonth()" class="right-circle story-circle"></div>
-    <img ref="imageContent" class="middle-circle story-circle" :src="require(`@/assets/img/Home/Story/${monthList[month]}.png`)" alt="" srcset="">
+    <img ref="imageContent" id="imageContent" class="middle-circle story-circle" :src="require(`@/assets/img/Home/Story/${monthList[month]}.png`)" alt="" srcset="">
 
     <router-link
       :to="{name: 'Story'}"
@@ -62,26 +62,30 @@ export default {
     },
     async prevMonth () {
       if (this.month > 0) {
+        this.$refs.imageContent.classList.remove('appear-p')
+        this.$refs.imageContent.classList.remove('appear')
         this.$refs.imageContent.classList.add('leave-p')
         await this.wait(2000)
         this.month -= 1
-        document.querySelector('#home-navbar').style.background = this.navbg[this.month]
-        this.$refs.imageContent.classList.remove('leave-p')
-        this.$refs.imageContent.classList.add('appear-p')
-        await this.wait(2000)
-        this.$refs.imageContent.classList.remove('appear-p')
+        this.$nextTick(() => {
+          document.querySelector('#home-navbar').style.background = this.navbg[this.month]
+          this.$refs.imageContent.classList.remove('leave-p')
+          this.$refs.imageContent.classList.add('appear-p')
+        })
       }
     },
     async nextMonth () {
       if (this.month < 11) {
+        this.$refs.imageContent.classList.remove('appear-p')
+        this.$refs.imageContent.classList.remove('appear')
         this.$refs.imageContent.classList.add('leave')
         await this.wait(2000)
         this.month += 1
-        document.querySelector('#home-navbar').style.background = this.navbg[this.month]
-        this.$refs.imageContent.classList.remove('leave')
-        this.$refs.imageContent.classList.add('appear')
-        await this.wait(2000)
-        this.$refs.imageContent.classList.remove('appear')
+        this.$nextTick(() => {
+          document.querySelector('#home-navbar').style.background = this.navbg[this.month]
+          this.$refs.imageContent.classList.remove('leave')
+          this.$refs.imageContent.classList.add('appear')
+        })
       }
     },
     async wait (ms) {
@@ -91,16 +95,16 @@ export default {
     }
   },
   mounted () {
-    this.$refs.imageContent.style.setProperty('--left', `${((window.innerWidth / 2) - this.$refs.imageContent.width / 2)}px`)
+    document.querySelector('#imageContent').style.setProperty('--left', `${((window.innerWidth / 2) - document.querySelector('#imageContent').width / 2)}px`)
     window.addEventListener('resize', () => {
       // We execute the same script as before
-      this.$refs.imageContent.style.setProperty('--left', `${((window.innerWidth / 2) - this.$refs.imageContent.width / 2)}px`)
+      document.querySelector('#imageContent').style.setProperty('--left', `${((window.innerWidth / 2) - document.querySelector('#imageContent').width / 2)}px`)
     })
   },
   destroyed () {
     window.removeEventListener('resize', () => {
       // We execute the same script as before
-      this.$refs.imageContent.style.setProperty('--left', `${((window.innerWidth / 2) - this.$refs.imageContent.width / 2)}px`)
+      document.querySelector('#imageContent').style.setProperty('--left', `${((window.innerWidth / 2) - document.querySelector('#imageContent').width / 2)}px`)
     })
   }
 }
@@ -218,20 +222,20 @@ export default {
 }
 
 .story-circle {
-  height: 50vh;
-  width: 50vh;
+  height: 40vh;
+  width: 40vh;
   position: absolute;
-  top: 25%;
+  top: 30%;
   border: white solid 1px;
   border-radius: 50%;
 }
 
 .left-circle.story-circle {
-  left: -15%;
+  left: -10%;
   cursor: pointer;
 }
 .right-circle.story-circle {
-  right: -15%;
+  right: -10%;
   cursor: pointer;
 }
 

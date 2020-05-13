@@ -42,6 +42,15 @@ export default {
 </script>
 
 <style>
+@media screen and (max-width: 400px) {
+  .navhome {
+    font-size: 13px;
+  }
+
+  .menu li a:nth-child(2) {
+    white-space: nowrap;
+  }
+}
 #home {
   cursor: pointer;
   position: fixed;

@@ -208,8 +208,8 @@ export default {
 }
 
 .month-elements {
-  width: 80vw;
-  height: 80vh;
+  width: 90vw;
+  height: 90vh;
   position: absolute;
   transform: scale(0);
   z-index: 60;
