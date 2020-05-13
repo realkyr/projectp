@@ -45,8 +45,13 @@ export default {
       color: [
         '#F8B978', '#84CFF2', '#C74B4B', '#F7C6D3',
         '#EC6B6A', '#7E6EAF', '#F7BF5D', '#69AF71',
-        '#F7EBAE', '#F8D58E', '#99C989', '#F8D0DA',
+        '#8D6039', '#F8D58E', '#99C989', '#F8D0DA',
         '#AEE0F4'
+      ],
+      navbg: [
+        '#458D5F', '#2D69A3', '#3E793F', '#638545',
+        '#68B177', '#8BC17A', '#E76552', '#2D5D35',
+        '#E8D995', '#A83133', '#D64648', '# F77981'
       ]
     }
   },
@@ -55,19 +60,28 @@ export default {
       console.log('next!')
       this.$emit('nextpage', 3)
     },
-    prevMonth () {
+    async prevMonth () {
       if (this.month > 0) {
+        this.$refs.imageContent.classList.add('leave-p')
+        await this.wait(2000)
         this.month -= 1
+        document.querySelector('#home-navbar').style.background = this.navbg[this.month]
+        this.$refs.imageContent.classList.remove('leave-p')
+        this.$refs.imageContent.classList.add('appear-p')
+        await this.wait(2000)
+        this.$refs.imageContent.classList.remove('appear-p')
       }
     },
     async nextMonth () {
       if (this.month < 11) {
-        this.$refs.imageContent.classList.remove('appear')
         this.$refs.imageContent.classList.add('leave')
         await this.wait(2000)
         this.month += 1
+        document.querySelector('#home-navbar').style.background = this.navbg[this.month]
         this.$refs.imageContent.classList.remove('leave')
         this.$refs.imageContent.classList.add('appear')
+        await this.wait(2000)
+        this.$refs.imageContent.classList.remove('appear')
       }
     },
     async wait (ms) {
@@ -139,12 +153,8 @@ export default {
   display: inline-block;
   margin: 5px;
   border-radius: 50%;
-  background: white;
-  transition: all 1s ease;
-}
-
-.s-indicator.jan .s-dot {
   background: #F7E7AD;
+  transition: all 1s ease;
 }
 
 .s-indicator.jan .s-dot:nth-child(1) {
@@ -159,6 +169,51 @@ export default {
 
 .s-indicator.mar .s-dot:nth-child(3) {
   background: #7EBE86;
+  opacity: 1;
+}
+
+.s-indicator.apr .s-dot:nth-child(4) {
+  background: #638545;
+  opacity: 1;
+}
+
+.s-indicator.may .s-dot:nth-child(5) {
+  background: #B73635;
+  opacity: 1;
+}
+
+.s-indicator.jun .s-dot:nth-child(6) {
+  background: #82D879;
+  opacity: 1;
+}
+
+.s-indicator.jul .s-dot:nth-child(7) {
+  background: #588960;
+  opacity: 1;
+}
+
+.s-indicator.aug .s-dot:nth-child(8) {
+  background: #588960;
+  opacity: 1;
+}
+
+.s-indicator.sep .s-dot:nth-child(9) {
+  background: #517638;
+  opacity: 1;
+}
+
+.s-indicator.oct .s-dot:nth-child(10) {
+  background: #A83133;
+  opacity: 1;
+}
+
+.s-indicator.nov .s-dot:nth-child(11) {
+  background: #C33335;
+  opacity: 1;
+}
+
+.s-indicator.dec .s-dot:nth-child(12) {
+  background: #F77981;
   opacity: 1;
 }
 
@@ -189,6 +244,14 @@ export default {
   animation: 2s ease-in-out 0s leave forwards;
 }
 
+.middle-circle.story-circle.leave-p {
+  animation: 2s ease-in-out 0s leave-p forwards;
+}
+
+.middle-circle.story-circle.appear-p {
+  animation: 2s ease-in-out 0s appear-p forwards;
+}
+
 .middle-circle.story-circle.appear {
   animation: 2s ease-in-out 0s appear forwards;
 }
@@ -201,6 +264,28 @@ export default {
     transform: scale(0.8);
     opacity: 0;
     left: -15%;
+  }
+}
+
+@keyframes leave-p {
+  from {
+    right: calc(var(--left, auto));
+  }
+  to {
+    right: -15%;
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes appear-p {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+    left: -15%;
+  }
+  to {
+    left: calc(var(--left, auto));
   }
 }
 

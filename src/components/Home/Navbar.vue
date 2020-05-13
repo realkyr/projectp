@@ -1,5 +1,5 @@
 <template>
-  <div :class="['navhome', 'container-fluid', backg[section]]">
+  <div :class="['navhome', 'container-fluid', backg[section]]" id="home-navbar">
     <span id="home">
       <HomeIcon @click.native="navTo(0)" :width="30" />
     </span>

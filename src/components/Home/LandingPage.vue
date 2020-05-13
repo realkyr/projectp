@@ -3,7 +3,7 @@
     <Navbar @navto="nextSection" :section="section" />
     <Landing  @nextpage="nextSection" />
     <About @nextpage="nextSection" />
-    <Story @nextpage="nextSection" />
+    <Story ref="homeStory" @nextpage="nextSection" />
     <Shop @nextpage="nextSection" />
     <Contact />
     <div :class="['section-indicator', sectionName[section]]">
@@ -82,6 +82,10 @@ export default {
   methods: {
     nextSection (e) {
       if (!this.scrollable) return
+      document.querySelector('#home-navbar').style.background = ''
+      if (e === 2) {
+        document.querySelector('#home-navbar').style.background = this.$refs.homeStory.navbg[this.$refs.homeStory.month]
+      }
       console.log(e)
       this.section = e
 
